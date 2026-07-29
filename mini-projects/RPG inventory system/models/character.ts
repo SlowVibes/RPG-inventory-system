@@ -38,7 +38,28 @@ export class Character {
         console.log(`${this.name} was gained ${healValue} health points! Current health: ${this.currentHealth}`);
     }
 
+    restoreMana(manaValue: number): void {
 
-    // Mana method, AddGold method, etc. can be added here as needed
+        if (manaValue <= 0) {
+            return;
+        }
+
+        this.currentMana = Math.min(this.currentMana + manaValue, this.maxMana);
+
+        console.log(`${this.name} restored ${manaValue} mana points! Current mana: ${this.currentMana}`);
+    }
+
+    addGold(goldValue: number): void {
+
+        if (goldValue <= 0) {
+            return;
+        }
+
+        this.gold += goldValue;
+
+        console.log(`${this.name} gained ${goldValue} gold! Current gold: ${this.gold}`);
+    }
+
+    // Later on, will be decided to change public access modifiers to private and add getter and setter methods for better encapsulation
 }
 
