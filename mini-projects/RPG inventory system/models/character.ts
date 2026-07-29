@@ -1,3 +1,5 @@
+import { Inventory } from "./inventory";
+
 export class Character {
   constructor(
     public name: string,
@@ -9,6 +11,7 @@ export class Character {
     public maxMana = 50,
     public currentMana = 50,
     public gold = 1000,
+    public inventory = new Inventory()
   ) {}
 
   takeDamage(damageValue: number): void {
