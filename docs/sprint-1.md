@@ -9,7 +9,7 @@ Tasks:
 - [X] Setup project
 - [x] Create Character
 - [X] Create Basic interactions: damage, heal, restore mana, add gold
-- [X] Create Item: Weapon
+- [X] Create Item: Weapon, Armor
 - [ ] Inventory
 - [ ] Equipment
 
