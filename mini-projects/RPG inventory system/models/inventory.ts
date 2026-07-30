@@ -3,31 +3,23 @@ import { Item } from "./item";
 export class Inventory {
   constructor(
     public items: Item[] = [],
-    public weightLimit: number = 50,
+    public weightLimit: number = 40,
   ) {}
 
-  addItem(item: Item): void {
-    if (
-      this.items.reduce(
-        (totalWeight, currentItem) => totalWeight + currentItem.weight,
-        0,
-      ) +
-        item.weight >
-      this.weightLimit
-    ) {
-      console.log(
-        `Cannot add item to inventory: ${item.name} (ID: ${item.id}). Weight limit exceeded.`,
-      );
-      return;
+  addItem(item: Item): boolean {
+    if (this.getCurrentWeight() + item.weight > this.weightLimit) {
+      return false;
     }
+
     this.items.push(item);
 
-    console.log(`Adding item to inventory: ${item.name} (ID: ${item.id})`);
+    return true;
   }
 
-  // to-do: change class to boolean to indicate success or failure
-  dropItem(id: number): void {
+  dropItem(id: number): boolean {
+    const initialLength = this.items.length;
     this.items = this.items.filter((item) => item.id !== id);
+    return this.items.length < initialLength;
   }
 
   listItems(): void {
@@ -39,5 +31,12 @@ export class Inventory {
 
   searchItemById(id: number): Item | undefined {
     return this.items.find((item) => item.id === id);
+  }
+
+  private getCurrentWeight(): number {
+    return this.items.reduce(
+      (totalWeight, currentItem) => totalWeight + currentItem.weight,
+      0,
+    );
   }
 }
