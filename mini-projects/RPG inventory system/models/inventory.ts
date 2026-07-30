@@ -17,16 +17,19 @@ export class Inventory {
   }
 
   dropItem(id: number): boolean {
-    const initialLength = this.items.length;
+    const item = this.searchItemById(id);
+
+    if (!item) {
+      return false;
+    }
+    // May refactor to findIndex
     this.items = this.items.filter((item) => item.id !== id);
-    return this.items.length < initialLength;
+
+    return true;
   }
 
-  listItems(): void {
-    console.log("Inventory items:");
-    this.items.forEach((item) => {
-      console.log(`- ${item.name} (ID: ${item.id})`);
-    });
+  listItems(): Item[] {
+    return [...this.items];
   }
 
   searchItemById(id: number): Item | undefined {

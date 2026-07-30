@@ -34,10 +34,20 @@ hero.addGold(500);
 
 hero.inventory.listItems();
 
-hero.inventory.dropItem(2);
-hero.inventory.dropItem(3);
+const existingItem = hero.inventory.searchItemById(1); // >> Test search for an existing item
+console.log("Existing item:", existingItem);
+
+const listItems = hero.inventory.listItems();
+console.log("List of items in inventory:", listItems);
+
+const firstDroppedItem = hero.inventory.dropItem(1);
+console.log("First dropped item:", firstDroppedItem);
 
 hero.inventory.listItems();
 
-hero.inventory.searchItemById(2); // >> Test search for an existing item
-hero.inventory.searchItemById(99); // >> Test search for a non-existing item
+const secondDroppedItem = hero.inventory.dropItem(1);
+console.log("Second dropped item:", secondDroppedItem);
+
+const nonExistingItem = hero.inventory.searchItemById(99); // >> Test search for a non-existing item
+console.log("Non-existing item:", nonExistingItem);
+
