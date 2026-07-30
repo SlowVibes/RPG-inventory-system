@@ -10,7 +10,7 @@ Tasks:
 - [x] Create Character
 - [X] Create Basic interactions: damage, heal, restore mana, add gold
 - [X] Create Item: Weapon, Armor, Ring, Potion
-- [ ] Inventory: Character --> Inventory --> Item
+- [X] Inventory: Character --> Inventory --> Item
 - [ ] Equipment
 
 Definition of Done
