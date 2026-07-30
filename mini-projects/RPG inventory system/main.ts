@@ -3,23 +3,23 @@ import { Weapon } from "./models/weapon";
 import { Armor } from "./models/armor";
 import { Ring } from "./models/ring";
 import { Potion } from "./models/potion";
-import { Inventory } from "./models/inventory";
+
 
 const hero = new Character("Conan");
 const excalibur = new Weapon(1, "Excalibur", 10, 1000, 15, 100);
-const barbarianArmor = new Armor(2, "Barbarian Armor", 10, 500, 20, 100);
+const barbarianArmor = new Armor(2, "Barbarian Armor", 100, 500, 20, 100);
 const rubyRing = new Ring(3, "Ruby Ring", 10, 200, 5, 50);
 const healthPotion = new Potion(4, "Health Potion", 10, 50, 20, 0);
 const manaPotion = new Potion(5, "Mana Potion", 1, 10, 0, 20);
 const superPotion = new Potion(6, "Super Potion", 2, 100, 50, 50);
 
-hero.inventory.addItem(excalibur);
-hero.inventory.addItem(barbarianArmor);
-hero.inventory.addItem(rubyRing);
-hero.inventory.addItem(healthPotion);
-hero.inventory.addItem(manaPotion);
-hero.inventory.addItem(superPotion);
+// Test adding items to the inventory and check if they were added successfully
+const addedExcalibur = hero.inventory.addItem(excalibur);
+console.log("Added Excalibur:", addedExcalibur);
 
+// Test adding items to the inventory and check if they were added successfully
+const addedBarbarianArmor = hero.inventory.addItem(barbarianArmor);
+console.log("Added Barbarian Armor:", addedBarbarianArmor);
 
 hero.takeDamage(20);
 
