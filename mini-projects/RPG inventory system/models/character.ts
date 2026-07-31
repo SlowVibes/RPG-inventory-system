@@ -3,7 +3,7 @@ import { Item } from "./item";
 import { Potion } from "./potion";
 
 export class Character {
-  public inventory: Inventory;
+   inventory: Inventory;
 
   constructor(
     public name: string,
