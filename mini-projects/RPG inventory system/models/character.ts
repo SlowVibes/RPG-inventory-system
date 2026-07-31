@@ -25,42 +25,40 @@ export class Character {
     }
 
     this.currentHealth = Math.max(this.currentHealth - damageValue, 0);
-
-  
   }
 
-  healCharacter(healValue: number): void {
+  healCharacter(healValue: number): boolean {
     if (healValue <= 0) {
-      return;
+      return false;
     }
+
+    const previousHealth = this.currentHealth;
 
     this.currentHealth = Math.min(
       this.currentHealth + healValue,
       this.maxHealth,
     );
 
-    if (this.currentHealth === this.maxHealth) {
-      return;
-    }
-
+    return this.currentHealth !== previousHealth;
   }
 
-  restoreMana(manaValue: number): void {
+  restoreMana(manaValue: number): boolean {
     if (manaValue <= 0) {
-      return;
+      return false;
     }
 
+    const previousMana = this.currentMana;
     this.currentMana = Math.min(this.currentMana + manaValue, this.maxMana);
-
+    return this.currentMana !== previousMana;
   }
 
-  addGold(goldValue: number): void {
+  addGold(goldValue: number): boolean {
     if (goldValue <= 0) {
-      return;
+      return false;
     }
 
     this.gold += goldValue;
-
+    return true;
   }
 
   pickUpItem(item: Item): boolean {
