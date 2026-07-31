@@ -14,11 +14,11 @@ const manaPotion = new Potion(5, "Mana Potion", 1, 10, 0, 20);
 const superPotion = new Potion(6, "Super Potion", 2, 100, 50, 50);
 
 // Test adding items to the inventory and check if they were added successfully
-const addedExcalibur = hero.inventory.addItem(excalibur);
+const addedExcalibur = hero.pickUpItem(excalibur);
 console.log("Added Excalibur:", addedExcalibur);
 
 // Test adding items to the inventory and check if they were added successfully
-const addedBarbarianArmor = hero.inventory.addItem(barbarianArmor);
+const addedBarbarianArmor = hero.pickUpItem(barbarianArmor);
 console.log("Added Barbarian Armor:", addedBarbarianArmor);
 
 hero.takeDamage(20);

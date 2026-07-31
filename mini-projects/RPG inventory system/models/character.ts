@@ -1,6 +1,8 @@
 import { Inventory } from "./inventory";
 
 export class Character {
+public inventory: Inventory;
+
   constructor(
     public name: string,
     public level = 1,
@@ -10,9 +12,10 @@ export class Character {
     public currentHealth = 100,
     public maxMana = 50,
     public currentMana = 50,
-    public gold = 1000,
-    public inventory = new Inventory()
-  ) {}
+    public gold = 1000
+  ) {
+    this.inventory = new Inventory();
+  }
 
   takeDamage(damageValue: number): void {
     if (damageValue <= 0) {
@@ -70,6 +73,16 @@ export class Character {
     console.log(
       `${this.name} gained ${goldValue} gold! Current gold: ${this.gold}`,
     );
+  }
+
+  // Inventory Actions delegated to Character class for better encapsulation and to avoid direct access to the Inventory class from outside the Character class.
+
+  pickUpItem(item: Item): boolean {
+    return this.inventory.addItem(item);
+  }
+
+  dropItem(id: number): boolean {
+    return this.inventory.dropItem(id);
   }
 
   // Later on, will be decided to change public access modifiers to private and add getter and setter methods for better encapsulation
