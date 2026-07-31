@@ -1,7 +1,9 @@
 import { Inventory } from "./inventory";
+import { Item } from "./item";
+import { Potion } from "./potion";
 
 export class Character {
-public inventory: Inventory;
+  public inventory: Inventory;
 
   constructor(
     public name: string,
@@ -12,7 +14,7 @@ public inventory: Inventory;
     public currentHealth = 100,
     public maxMana = 50,
     public currentMana = 50,
-    public gold = 1000
+    public gold = 1000,
   ) {
     this.inventory = new Inventory();
   }
@@ -22,11 +24,9 @@ public inventory: Inventory;
       return;
     }
 
-    this.currentHealth = Math.max(this.currentHealth - damageValue);
+    this.currentHealth = Math.max(this.currentHealth - damageValue, 0);
 
-    console.log(
-      `${this.name} took ${damageValue} damage! Current health: ${this.currentHealth}`,
-    );
+  
   }
 
   healCharacter(healValue: number): void {
@@ -40,15 +40,9 @@ public inventory: Inventory;
     );
 
     if (this.currentHealth === this.maxHealth) {
-      console.log(
-        `${this.name} is fully healed! Current health: ${this.currentHealth}`,
-      );
       return;
     }
 
-    console.log(
-      `${this.name} was gained ${healValue} health points! Current health: ${this.currentHealth}`,
-    );
   }
 
   restoreMana(manaValue: number): void {
@@ -58,9 +52,6 @@ public inventory: Inventory;
 
     this.currentMana = Math.min(this.currentMana + manaValue, this.maxMana);
 
-    console.log(
-      `${this.name} restored ${manaValue} mana points! Current mana: ${this.currentMana}`,
-    );
   }
 
   addGold(goldValue: number): void {
@@ -70,12 +61,7 @@ public inventory: Inventory;
 
     this.gold += goldValue;
 
-    console.log(
-      `${this.name} gained ${goldValue} gold! Current gold: ${this.gold}`,
-    );
   }
-
-  // Inventory Actions delegated to Character class for better encapsulation and to avoid direct access to the Inventory class from outside the Character class.
 
   pickUpItem(item: Item): boolean {
     return this.inventory.addItem(item);
@@ -85,5 +71,17 @@ public inventory: Inventory;
     return this.inventory.dropItem(id);
   }
 
-  // Later on, will be decided to change public access modifiers to private and add getter and setter methods for better encapsulation
+  usePotion(potion: Potion): boolean {
+    const removedItem = this.inventory.dropItem(potion.id);
+
+    if (!removedItem) {
+      return false;
+    }
+
+    this.healCharacter(potion.healthRestoration);
+
+    this.restoreMana(potion.manaRestoration);
+
+    return true;
+  }
 }
