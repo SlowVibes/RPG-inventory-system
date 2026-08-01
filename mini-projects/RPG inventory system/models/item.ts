@@ -1,3 +1,5 @@
+import { Character } from "./character";
+
 export abstract class Item {
   constructor(
     public id: number,
@@ -5,4 +7,6 @@ export abstract class Item {
     public weight: number,
     public value: number,
   ) {}
+
+  abstract use(character: Character): boolean;
 }

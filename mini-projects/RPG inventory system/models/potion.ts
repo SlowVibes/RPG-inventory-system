@@ -1,3 +1,4 @@
+import { Character } from "./character";
 import { Item } from "./item";
 
 export class Potion extends Item {
@@ -10,5 +11,12 @@ export class Potion extends Item {
     public manaRestoration: number,
   ) {
     super(id, name, weight, value);
+  }
+
+  use(character: Character): boolean {
+    const healed = character.healCharacter(this.healthRestoration);
+    const restoredMana = character.restoreMana(this.manaRestoration);
+
+    return healed || restoredMana;
   }
 }

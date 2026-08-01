@@ -1,3 +1,4 @@
+import { Character } from "./character";
 import { Item } from "./item";
 
 export class Ring extends Item {
@@ -11,4 +12,8 @@ export class Ring extends Item {
   ) {
     super(id, name, weight, value);
   }
+
+  use(character: Character): boolean {
+      return true;
+    };
 }
