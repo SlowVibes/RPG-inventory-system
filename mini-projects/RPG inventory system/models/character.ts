@@ -1,6 +1,5 @@
 import { Inventory } from "./inventory";
 import { Item } from "./item";
-import { Potion } from "./potion";
 
 export class Character {
   inventory: Inventory;
