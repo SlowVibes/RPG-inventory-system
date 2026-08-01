@@ -3,7 +3,7 @@ import { Item } from "./item";
 import { Potion } from "./potion";
 
 export class Character {
-   inventory: Inventory;
+  inventory: Inventory;
 
   constructor(
     public name: string,
@@ -69,17 +69,19 @@ export class Character {
     return this.inventory.dropItem(id);
   }
 
-  usePotion(potion: Potion): boolean {
-    const removedItem = this.inventory.dropItem(potion.id);
+  useItem(itemId: number): boolean {
+    const item = this.inventory.searchItemById(itemId);
 
-    if (!removedItem) {
+    if (!item) {
       return false;
     }
 
-    this.healCharacter(potion.healthRestoration);
+    const usedSuccessfully = item.use(this);
 
-    this.restoreMana(potion.manaRestoration);
+    if (!usedSuccessfully) {
+      return false;
+    }
 
-    return true;
+    return this.inventory.dropItem(itemId);
   }
 }

@@ -27,7 +27,7 @@ console.log(`Current Health: ${hero.currentHealth}`); // >> Test current health 
 
 hero.takeDamage(-90); // >> Test negative damage value
 
-hero.usePotion(healthPotion);
+hero.useItem(4); // >> Test using health potion
 
 console.log(`Current Health: ${hero.currentHealth}`); // >> Test current health after using health potion
 console.log(hero.inventory.items); // >> Test inventory after using health potion
