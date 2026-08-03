@@ -28,10 +28,6 @@ export class Inventory {
     return true;
   }
 
-  listItems(): Item[] {
-    return [...this.items];
-  }
-
   searchItemById(id: number): Item | undefined {
     return this.items.find((item) => item.id === id);
   }
