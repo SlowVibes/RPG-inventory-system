@@ -10,7 +10,7 @@ export class Armor extends Item {
     public defense: number,
     public durability: number,
   ) {
-    super(id, name, weight, value);
+    super(id, name, weight, value, ItemType.Armor);
   }
 
   use(character: Character): boolean {

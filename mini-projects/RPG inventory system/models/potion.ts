@@ -10,7 +10,7 @@ export class Potion extends Item {
     public healthRestoration: number,
     public manaRestoration: number,
   ) {
-    super(id, name, weight, value);
+    super(id, name, weight, value, ItemType.Potion);
   }
 
   use(character: Character): boolean {

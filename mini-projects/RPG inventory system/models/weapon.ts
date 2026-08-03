@@ -10,7 +10,7 @@ export class Weapon extends Item {
     public damage: number,
     public durability: number,
   ) {
-    super(id, name, weight, value);
+    super(id, name, weight, value, ItemType.Weapon);
   }
 
   use(character: Character): boolean {

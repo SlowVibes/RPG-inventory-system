@@ -10,7 +10,7 @@ export class Ring extends Item {
     public bonusStrength: number,
     public bonusHealth: number,
   ) {
-    super(id, name, weight, value);
+    super(id, name, weight, value, ItemType.Ring);
   }
 
   use(character: Character): boolean {
