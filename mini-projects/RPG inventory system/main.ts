@@ -13,8 +13,7 @@ hero.takeDamage(50);
 
 console.log(hero.currentHealth);
 
-hero.useItem(1);
+//hero.useItem(1);
 
 console.log(hero.currentHealth);
 
-console.log(hero.inventory.items);

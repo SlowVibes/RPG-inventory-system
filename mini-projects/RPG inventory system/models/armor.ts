@@ -1,5 +1,6 @@
 import { Character } from "./character";
 import { Item } from "./item";
+import { ItemType } from "./itemtype";
 
 export class Armor extends Item {
   constructor(

@@ -1,4 +1,5 @@
 import type { Character } from "./character";
+import { ItemType } from "./itemtype";
 
 export abstract class Item {
   constructor(
@@ -6,7 +7,7 @@ export abstract class Item {
     public name: string,
     public weight: number,
     public value: number,
-    public itemtype: ItemType 
+    public type: ItemType 
   ) {}
 
   abstract use(character: Character): boolean;
