@@ -64,12 +64,12 @@ export class Character {
     return this.inventory.addItem(item);
   }
 
-  dropItem(id: number): boolean {
-    return this.inventory.dropItem(id);
+  removeItem(id: number): boolean {
+    return this.inventory.removeItem(id);
   }
 
   useItem(itemId: number): boolean {
-    const item = this.inventory.searchItemById(itemId);
+    const item = this.inventory.getItemById(itemId);
 
     if (!item) {
       return false;
@@ -81,6 +81,6 @@ export class Character {
       return false;
     }
 
-    return this.inventory.dropItem(itemId);
+    return this.inventory.removeItem(itemId);
   }
 }

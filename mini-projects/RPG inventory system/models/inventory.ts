@@ -16,8 +16,8 @@ export class Inventory {
     return true;
   }
 
-  dropItem(id: number): boolean {
-    const item = this.searchItemById(id);
+  removeItem(id: number): boolean {
+    const item = this.getItemById(id);
 
     if (!item) {
       return false;
@@ -28,7 +28,7 @@ export class Inventory {
     return true;
   }
 
-  searchItemById(id: number): Item | undefined {
+  getItemById(id: number): Item | undefined {
     return this.items.find((item) => item.id === id);
   }
 
