@@ -1,5 +1,7 @@
 import { Character } from "./character";
 import { Item } from "./item";
+import { ItemType } from "./itemtype";
+
 
 export class Potion extends Item {
   constructor(
