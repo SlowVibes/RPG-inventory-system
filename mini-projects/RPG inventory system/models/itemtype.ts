@@ -4,5 +4,3 @@ export enum ItemType{
     Armor,
     Ring
 }
-
-console.log (ItemType);
