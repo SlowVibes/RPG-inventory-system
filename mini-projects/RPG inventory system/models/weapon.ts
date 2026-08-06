@@ -17,4 +17,15 @@ export class Weapon extends Item {
   use(character: Character): boolean {
     return true;
   };
+
+  reduceDurability(amount: number): boolean {
+    if (amount <= 0) {
+      return false; 
+    }
+    const previousDurability = this.durability;
+
+    this.durability = Math.max(0, this.durability - amount); 
+
+    return this.durability !== previousDurability; 
+  }
 }
