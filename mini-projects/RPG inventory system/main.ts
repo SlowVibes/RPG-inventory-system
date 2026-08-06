@@ -5,15 +5,13 @@ import { Ring } from "./models/ring";
 import { Potion } from "./models/potion";
 
 const hero = new Character("Conan");
-const potion = new Potion(1, "Health Potion", 0.5, 50, 30, 0);
 
-hero.pickUpItem(potion);
+const sword = new Weapon(1, "Sword", 5, 100, 10, 100);
 
-hero.takeDamage(50);
+hero.pickUpItem(sword);
 
-console.log(hero.currentHealth);
+const equipped = hero.equipItem(sword.id);
 
-hero.useItem(1);
-
-console.log(hero.currentHealth);
-
+console.log(`Equipped: ${equipped}`);
+console.log("Equipped weapon:", hero.equipment.weapon);
+console.log("Item still in inventory:", hero.inventory.getItemById(sword.id));

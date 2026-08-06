@@ -1,9 +1,10 @@
 import { Inventory } from "./inventory";
 import { Item } from "./item";
+import { Equipment } from "./equipment";
 
 export class Character {
   inventory: Inventory;
-
+  public equipment: Equipment;
   constructor(
     public name: string,
     public level = 1,
@@ -16,6 +17,7 @@ export class Character {
     public gold = 1000,
   ) {
     this.inventory = new Inventory();
+    this.equipment = new Equipment();
   }
 
   takeDamage(damageValue: number): void {
@@ -82,5 +84,25 @@ export class Character {
     }
 
     return this.inventory.removeItem(itemId);
+  }
+
+  equipItem(id: number): boolean {
+    const item = this.inventory.getItemById(id);
+    
+    if (!item) {
+      return false;
+    }
+
+    const result = this.equipment.equip(item);
+    
+    if (!result.equipped) {
+      return false;
+    }
+
+    if (result.previousItem) {
+      this.inventory.addItem(result.previousItem);
+    }
+
+    return this.inventory.removeItem(id);
   }
 }
