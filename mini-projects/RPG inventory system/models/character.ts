@@ -15,6 +15,9 @@ export class Character {
     public maxMana = 50,
     public currentMana = 50,
     public gold = 1000,
+    public baseAttack = 10,
+    public baseDefense = 5,
+    public baseStrength = 10,
   ) {
     this.inventory = new Inventory();
     this.equipment = new Equipment();
@@ -94,7 +97,7 @@ export class Character {
     }
 
     const result = this.equipment.equip(item);
-    
+
     if (!result.equipped) {
       return false;
     }
@@ -104,5 +107,21 @@ export class Character {
     }
 
     return this.inventory.removeItem(id);
+  }
+
+  getAttack(): number {
+    const weaponDamage = this.equipment.weapon?.damage ?? 0;
+
+    return this.baseAttack + weaponDamage;
+  }
+
+  getDefense(): number {
+    const armorDefense = this.equipment.armor?.defense ?? 0;
+    return this.baseDefense + armorDefense;
+  }
+
+  getStrength(): number {
+    const ringStrength = this.equipment.ring?.bonusStrength ?? 0;
+    return this.baseStrength + ringStrength;
   }
 }
