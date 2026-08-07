@@ -35,3 +35,9 @@ console.log("Attack again", attackSuccess);
 console.log("Enemy HP after second attack", enemy.currentHealth);
 console.log("Is enemy dead after second attack?", enemy.isDead());
 console.log("Weapon durability after second attack:", hero.equipment.weapon?.durability); 
+
+const hero2 = new Character("Unarmed Conan");
+const enemy2 = new Enemy("Goblin", 50, 50);
+
+console.log(hero2.attack(enemy2));
+console.log(enemy2.currentHealth);
