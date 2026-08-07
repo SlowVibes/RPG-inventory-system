@@ -3,44 +3,35 @@ import { Weapon } from "./models/weapon";
 import { Armor } from "./models/armor";
 import { Ring } from "./models/ring";
 import { Potion } from "./models/potion";
+import { Enemy } from "./models/enemy";
 
 const hero = new Character("Conan");
-
-const sword = new Weapon(1, "Sword", 5, 100, 10, 100);
+const enemy  = new Enemy("Goblin", 10, 10);
+const sword = new Weapon(1, "Sword", 5, 100, 5, 100);
 const armor = new Armor(2, "Armor", 10, 150, 20, 100);
 const ring = new Ring(3, "Strength Ring", 1, 200, 5, 10);
-
-const sword2 = new Weapon(4, "Sword2", 5, 100, 2500, 100);
 
 hero.pickUpItem(sword);
 hero.pickUpItem(armor);
 hero.pickUpItem(ring);
-hero.pickUpItem(sword2);
-
-console.log("Before equipment:");
-console.log(`Attack: ${hero.getAttack()}`);
-console.log(`Defense: ${hero.getDefense()}`);
-console.log(`Strength: ${hero.getStrength()}`); 
 
 hero.equipItem(sword.id);
 hero.equipItem(armor.id);
 hero.equipItem(ring.id);
 
-console.log("After equipment:");
-console.log(`Attack: ${hero.getAttack()}`);
-console.log(`Defense: ${hero.getDefense()}`);
-console.log(`Strength: ${hero.getStrength()}`);
+console.log("Enemy HP before", enemy.currentHealth);
+console.log ("Weapon durability before attack:", hero.equipment.weapon?.durability);
 
-console.log("Equip Sword2:", hero.equipItem(sword2.id));
-console.log("Current weapon:", hero.equipment.weapon?.name);
-console.log("Current attack:", hero.getAttack());
+const attackSuccess = hero.attack(enemy);
 
-console.log(
-  "Old sword returned:",
-  hero.inventory.getItemById(sword.id)?.name,
-);
+console.log("Attack success:", attackSuccess);
+console.log("Enemy HP after", enemy.currentHealth);
+console.log ("Weapon durability after attack:", hero.equipment.weapon?.durability);
+console.log("Is enemy dead?", enemy.isDead());
 
-console.log(
-  "Sword2 still in inventory:",
-  hero.inventory.getItemById(sword2.id),
-);
+hero.attack(enemy);
+
+console.log("Attack again", attackSuccess);
+console.log("Enemy HP after second attack", enemy.currentHealth);
+console.log("Is enemy dead after second attack?", enemy.isDead());
+console.log("Weapon durability after second attack:", hero.equipment.weapon?.durability); 

@@ -1,6 +1,7 @@
 import { Inventory } from "./inventory";
 import { Item } from "./item";
 import { Equipment } from "./equipment";
+import type { Enemy } from "./enemy";
 
 export class Character {
   inventory: Inventory;
@@ -91,7 +92,7 @@ export class Character {
 
   equipItem(id: number): boolean {
     const item = this.inventory.getItemById(id);
-    
+
     if (!item) {
       return false;
     }
@@ -123,5 +124,21 @@ export class Character {
   getStrength(): number {
     const ringStrength = this.equipment.ring?.bonusStrength ?? 0;
     return this.baseStrength + ringStrength;
+  }
+
+  attack(enemy: Enemy): boolean {
+    const weapon = this.equipment.weapon;
+
+    if (!weapon) {
+      return false;
+    }
+
+    const damage = weapon.attack();
+
+    if (damage <= 0) {
+      return false;
+    }
+
+    return enemy.takeDamage(damage);
   }
 }
