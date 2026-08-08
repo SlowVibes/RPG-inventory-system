@@ -7,6 +7,7 @@ export class Enemy {
     public currentHealth = 100,
     public attackValue = 20,
     public defense = 0,
+    public experienceReward = 25,
   ) {}
 
   takeDamage(damage: number): boolean {

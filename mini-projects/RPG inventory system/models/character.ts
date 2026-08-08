@@ -150,10 +150,51 @@ export class Character {
       return false;
     }
 
-    return enemy.takeDamage(damage);
+    const damaged = enemy.takeDamage(damage);
+
+    if (!damaged) {
+      return false;
+    }
+
+    if (enemy.isDead()) {
+      this.gainExperience(enemy.experienceReward);
+    }
+
+    return true;
   }
 
   isDead(): boolean {
     return this.currentHealth <= 0;
+  }
+
+  gainExperience(xp: number): boolean {
+    if (xp <= 0) {
+      return false;
+    }
+    this.experience += xp;
+
+    while (this.experience >= this.experienceToNextLevel) {
+      this.levelUp();
+    }
+
+    return true;
+  }
+
+  levelUp(): void {
+    const requiredExperience = this.experienceToNextLevel;
+
+    this.experience -= requiredExperience;
+    this.experienceToNextLevel = Math.floor(this.experienceToNextLevel * 1.5);
+    this.level++;
+
+    this.maxHealth += 10;
+    this.currentHealth = this.maxHealth;
+    this.maxMana += 5;
+    this.currentMana = this.maxMana;
+    this.baseAttack += 2;
+    this.baseDefense += 1;
+    this.baseStrength += 1;
+
+    console.log(`${this.name} leveled up to level ${this.level}!`);
   }
 }

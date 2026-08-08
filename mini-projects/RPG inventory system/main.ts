@@ -38,6 +38,9 @@ console.log("Hero HP after Goblin Warrior attack", hero.currentHealth);
 
 hero.attack(enemy);
 
+console.log("Hero experience after gaining XP:", hero.experience);
+console.log("Hero level after gaining XP:", hero.level);
+console.log("Hero experience to next level:", hero.experienceToNextLevel);
 console.log("Attack again", attackSuccess);
 console.log("Enemy HP after second attack", enemy.currentHealth);
 console.log("Is enemy dead after second attack?", enemy.isDead());
