@@ -73,3 +73,12 @@ console.log("Buy result:", shop.buyItem(1, hero));
 console.log("Gold after:", hero.gold);
 console.log("Inventory item:", hero.inventory.getItemById(1));
 console.log("Shop item after:", shop.getItemById(1));
+
+console.log("Gold before sell:", hero.gold);
+console.log("Inventory before:", hero.inventory.getItemById(1));
+
+console.log("Sell result:", shop.sellItem(1, hero));
+
+console.log("Gold after sell:", hero.gold);
+console.log("Inventory after:", hero.inventory.getItemById(1));
+console.log("Shop after:", shop.getItemById(1));
