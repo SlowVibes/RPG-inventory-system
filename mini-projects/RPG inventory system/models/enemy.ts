@@ -6,7 +6,7 @@ export class Enemy {
     public health = 100,
     public currentHealth = 100,
     public attackValue = 20,
-    public defense = 20,
+    public defense = 0,
   ) {}
 
   takeDamage(damage: number): boolean {
@@ -26,6 +26,9 @@ export class Enemy {
   }
 
   attack(character: Character): boolean {
+    if (this.isDead() || character.isDead()) {
+      return false;
+    }
     return character.takeDamage(this.attackValue);
   }
 

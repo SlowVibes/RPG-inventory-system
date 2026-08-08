@@ -12,7 +12,7 @@ export class Character {
     public experience = 10,
     public experienceToNextLevel = 15,
     public maxHealth = 100,
-    public currentHealth = 100,
+    public currentHealth = 10,
     public maxMana = 50,
     public currentMana = 50,
     public gold = 1000,
@@ -134,6 +134,10 @@ export class Character {
   }
 
   attack(enemy: Enemy): boolean {
+    if (this.isDead() || enemy.isDead()) {
+      return false;
+    }
+
     const weapon = this.equipment.weapon;
 
     if (!weapon) {
@@ -147,5 +151,9 @@ export class Character {
     }
 
     return enemy.takeDamage(damage);
+  }
+
+  isDead(): boolean {
+    return this.currentHealth <= 0;
   }
 }

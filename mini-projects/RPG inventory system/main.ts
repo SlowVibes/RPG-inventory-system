@@ -8,7 +8,7 @@ import { Enemy } from "./models/enemy";
 const hero = new Character("Conan");
 const enemy  = new Enemy("Goblin Apprentice");
 const enemy_2 = new Enemy("Goblin Warrior");
-const sword = new Weapon(1, "Sword", 5, 100, 5, 100);
+const sword = new Weapon(1, "Sword", 5, 100, 100, 100);
 const armor = new Armor(2, "Armor", 10, 150, 10, 100);
 const ring = new Ring(3, "Strength Ring", 1, 200, 5, 10);
 
@@ -27,6 +27,7 @@ const attackSuccess = hero.attack(enemy);
 
 console.log("Attack success:", attackSuccess);
 console.log("Enemy HP after", enemy.currentHealth);
+console.log("Hero HP after attack", hero.currentHealth);
 console.log ("Weapon durability after attack:", hero.equipment.weapon?.durability);
 console.log("Is enemy dead?", enemy.isDead());
 
@@ -42,8 +43,11 @@ console.log("Enemy HP after second attack", enemy.currentHealth);
 console.log("Is enemy dead after second attack?", enemy.isDead());
 console.log("Weapon durability after second attack:", hero.equipment.weapon?.durability); 
 
-const hero2 = new Character("Unarmed Conan");
-const enemy2 = new Enemy("Goblin", 50, 50);
+console.log("Is enemy dead?", enemy.attack(hero));
 
-console.log(hero2.attack(enemy2));
-console.log(enemy2.currentHealth);
+enemy_2.attack(hero);
+console.log("Hero HP after Goblin Warrior attack", hero.currentHealth);
+
+console.log("Hero can attack?", hero.attack(enemy_2));
+
+console.log("Goblin Warrior can attack?", enemy_2.attack(hero));
