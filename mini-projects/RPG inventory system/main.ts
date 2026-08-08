@@ -6,9 +6,10 @@ import { Potion } from "./models/potion";
 import { Enemy } from "./models/enemy";
 
 const hero = new Character("Conan");
-const enemy  = new Enemy("Goblin", 10, 10);
+const enemy  = new Enemy("Goblin Apprentice");
+const enemy_2 = new Enemy("Goblin Warrior");
 const sword = new Weapon(1, "Sword", 5, 100, 5, 100);
-const armor = new Armor(2, "Armor", 10, 150, 20, 100);
+const armor = new Armor(2, "Armor", 10, 150, 10, 100);
 const ring = new Ring(3, "Strength Ring", 1, 200, 5, 10);
 
 hero.pickUpItem(sword);
@@ -28,6 +29,11 @@ console.log("Attack success:", attackSuccess);
 console.log("Enemy HP after", enemy.currentHealth);
 console.log ("Weapon durability after attack:", hero.equipment.weapon?.durability);
 console.log("Is enemy dead?", enemy.isDead());
+
+enemy.attack(hero);
+console.log("Hero HP after Goblin Apprentice attack", hero.currentHealth);
+enemy_2.attack(hero);
+console.log("Hero HP after Goblin Warrior attack", hero.currentHealth);
 
 hero.attack(enemy);
 

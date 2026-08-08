@@ -24,12 +24,19 @@ export class Character {
     this.equipment = new Equipment();
   }
 
-  takeDamage(damageValue: number): void {
+  takeDamage(damageValue: number): boolean {
     if (damageValue <= 0) {
-      return;
+      return false;
     }
 
-    this.currentHealth = Math.max(this.currentHealth - damageValue, 0);
+    const actualDamage = Math.max(damageValue - this.getDefense(), 0);
+
+    if (actualDamage === 0) {
+      return false;
+    }
+
+    this.currentHealth = Math.max(this.currentHealth - actualDamage, 0);
+    return true;
   }
 
   healCharacter(healValue: number): boolean {

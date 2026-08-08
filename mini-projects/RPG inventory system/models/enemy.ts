@@ -1,8 +1,12 @@
+import type { Character } from "./character";
+
 export class Enemy {
   constructor(
     public name: string,
-    public health: number,
-    public currentHealth: number,
+    public health = 100,
+    public currentHealth = 100,
+    public attackValue = 20,
+    public defense = 20,
   ) {}
 
   takeDamage(damage: number): boolean {
@@ -10,8 +14,19 @@ export class Enemy {
       return false;
     }
     const previousHealth = this.currentHealth;
-    this.currentHealth = Math.max(this.currentHealth - damage, 0);
+
+    if (damage <= this.defense) {
+      return false;
+    }
+
+    const actualDamage = damage - this.defense;
+
+    this.currentHealth = Math.max(this.currentHealth - actualDamage, 0);
     return this.currentHealth !== previousHealth;
+  }
+
+  attack(character: Character): boolean {
+    return character.takeDamage(this.attackValue);
   }
 
   isDead(): boolean {
