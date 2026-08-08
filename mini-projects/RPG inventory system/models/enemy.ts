@@ -3,11 +3,12 @@ import type { Character } from "./character";
 export class Enemy {
   constructor(
     public name: string,
-    public health = 100,
-    public currentHealth = 100,
-    public attackValue = 20,
-    public defense = 0,
-    public experienceReward = 25,
+    public health: number,
+    public currentHealth: number,
+    public attackValue: number,
+    public defense: number,
+    public experienceReward: number,
+    public goldReward: number,
   ) {}
 
   takeDamage(damage: number): boolean {

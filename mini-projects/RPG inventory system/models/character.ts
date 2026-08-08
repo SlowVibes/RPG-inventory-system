@@ -73,6 +73,15 @@ export class Character {
     return true;
   }
 
+  spendGold(goldValue: number): boolean {
+    if (goldValue <= 0 || goldValue > this.gold) {
+      return false;
+    }
+
+    this.gold -= goldValue;
+    return true;
+  }
+
   pickUpItem(item: Item): boolean {
     return this.inventory.addItem(item);
   }
@@ -158,6 +167,7 @@ export class Character {
 
     if (enemy.isDead()) {
       this.gainExperience(enemy.experienceReward);
+      this.addGold(enemy.goldReward);
     }
 
     return true;
