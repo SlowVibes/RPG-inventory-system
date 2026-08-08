@@ -190,7 +190,7 @@ export class Character {
     return true;
   }
 
-  levelUp(): void {
+  private levelUp(): void {
     const requiredExperience = this.experienceToNextLevel;
 
     this.experience -= requiredExperience;
