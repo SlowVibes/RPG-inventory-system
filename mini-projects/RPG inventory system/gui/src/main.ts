@@ -12,15 +12,29 @@ import { ItemType } from "../../models/itemtype";
 import type { Item } from "../../models/item";
 
 /* =========================
-   CHARACTER / ENEMY ASSETS
+   CHARACTER ASSETS
 ========================= */
 
 import conanSprite from "./assets/conan.png";
 import conanAttackSprite from "./assets/conanattack.png";
 
+/* =========================
+   ENEMY ASSETS
+========================= */
+
 import goblinSprite from "./assets/goblin.png";
 import goblinAttackSprite from "./assets/goblinattack.png";
 import goblinDeadSprite from "./assets/goblindead.png";
+
+import magicianSprite from "./assets/magician.png";
+import magicianAttackSprite from "./assets/magicianattack.png";
+import magicianDeadSprite from "./assets/magiciandead.png";
+
+import ogreSprite from "./assets/ogre.png";
+import ogreAttackSprite from "./assets/ogreattack.png";
+import ogreDeadSprite from "./assets/ogredead.png";
+
+import fireMagicSprite from "./assets/icons/firemagic.png";
 
 /* =========================
    PANEL ASSETS
@@ -50,174 +64,65 @@ import superPotionIcon from "./assets/icons/superpotion.png";
 import levelUpIcon from "./assets/icons/levelup.png";
 
 /* =========================
-   GAME OBJECTS
+   HERO
 ========================= */
 
 const hero = new Character("Conan");
 
-const enemy = new Enemy(
-  "Goblin",
-  60,
-  60,
-  10,
-  5,
-  20,
-  20,
-);
+/* =========================
+   ENEMIES
+========================= */
+
+const enemies = [
+  new Enemy("Goblin", 60, 60, 10, 5, 20, 200),
+
+  new Enemy("Magician", 90, 90, 16, 4, 35, 400),
+
+  new Enemy("Ogre Boss", 180, 180, 26, 12, 80, 10000),
+];
+
+let enemyIndex = 0;
+let enemy = enemies[enemyIndex];
 
 /* =========================
    STARTING ITEMS
 ========================= */
 
-const axe = new Weapon(
-  1,
-  "Axe",
-  5,
-  500,
-  15,
-  100,
-);
+const axe = new Weapon(1, "Axe", 5, 500, 15, 100);
 
-const supremeAxe = new Weapon(
-  2,
-  "Supreme Axe",
-  5,
-  1000,
-  30,
-  250,
-);
+const supremeAxe = new Weapon(2, "Supreme Axe", 5, 1000, 30, 250);
 
-const healthPotion = new Potion(
-  3,
-  "Health Potion",
-  0.25,
-  25,
-  30,
-  0,
-);
+const healthPotion = new Potion(3, "Health Potion", 0.25, 25, 30, 0);
 
-const armor = new Armor(
-  4,
-  "Iron Armor",
-  10,
-  300,
-  10,
-  100,
-);
+const armor = new Armor(4, "Iron Armor", 10, 300, 10, 100);
 
-const ring = new Ring(
-  5,
-  "Strength Ring",
-  0.1,
-  250,
-  5,
-  10,
-);
+const ring = new Ring(5, "Strength Ring", 0.1, 250, 5, 10);
 
-const manaPotion = new Potion(
-  6,
-  "Mana Potion",
-  0.25,
-  25,
-  0,
-  25,
-);
+const manaPotion = new Potion(6, "Mana Potion", 0.25, 25, 0, 25);
 
-const superPotion = new Potion(
-  7,
-  "Super Potion",
-  0.4,
-  50,
-  25,
-  25,
-);
+const superPotion = new Potion(7, "Super Potion", 0.4, 50, 25, 25);
 
 hero.pickUpItem(healthPotion);
-hero.pickUpItem(manaPotion);
-hero.pickUpItem(superPotion);
-
 hero.pickUpItem(axe);
-hero.pickUpItem(supremeAxe);
-hero.pickUpItem(armor);
-hero.pickUpItem(ring);
 
 hero.equipItem(axe.id);
 
 /* =========================
-   SHOP ITEMS
+   SHOP
 ========================= */
 
-const shopAxe = new Weapon(
-  101,
-  "Axe",
-  5,
-  500,
-  15,
-  100,
-);
-
-const shopSupremeAxe = new Weapon(
-  102,
-  "Supreme Axe",
-  5,
-  1000,
-  30,
-  250,
-);
-
-const shopHealthPotion = new Potion(
-  103,
-  "Health Potion",
-  0.25,
-  25,
-  30,
-  0,
-);
-
-const shopManaPotion = new Potion(
-  104,
-  "Mana Potion",
-  0.25,
-  25,
-  0,
-  25,
-);
-
-const shopSuperPotion = new Potion(
-  105,
-  "Super Potion",
-  0.4,
-  50,
-  25,
-  25,
-);
-
-const shopArmor = new Armor(
-  106,
-  "Iron Armor",
-  10,
-  300,
-  10,
-  100,
-);
-
-const shopRing = new Ring(
-  107,
-  "Strength Ring",
-  0.1,
-  250,
-  5,
-  10,
-);
-
 const shop = new Shop([
-  shopAxe,
-  shopSupremeAxe,
-  shopHealthPotion,
-  shopManaPotion,
-  shopSuperPotion,
-  shopArmor,
-  shopRing,
+  new Weapon(102, "Supreme Axe", 5, 1000, 30, 250),
+
+  new Potion(103, "Health Potion", 0.25, 25, 30, 0),
+
+  new Potion(104, "Mana Potion", 0.25, 25, 0, 25),
+
+  new Potion(105, "Super Potion", 0.4, 50, 25, 25),
+
+  new Armor(106, "Iron Armor", 10, 300, 10, 100),
+
+  new Ring(107, "Strength Ring", 0.1, 250, 5, 10),
 ]);
 
 /* =========================
@@ -226,69 +131,74 @@ const shop = new Shop([
 
 const combatLog: string[] = [];
 
-let activePanel:
-  | "inventory"
-  | "equipment"
-  | "shop"
-  = "inventory";
+let activePanel: "inventory" | "equipment" | "shop" = "inventory";
 
 let gameOverLogged = false;
+
+/* =========================
+   ENEMY SPRITE HELPERS
+========================= */
+
+function getEnemySprite(): string {
+  if (enemy.name === "Goblin") {
+    return enemy.isDead() ? goblinDeadSprite : goblinSprite;
+  }
+
+  if (enemy.name === "Magician") {
+    return enemy.isDead() ? magicianDeadSprite : magicianSprite;
+  }
+
+  return enemy.isDead() ? ogreDeadSprite : ogreSprite;
+}
+
+function getEnemyAttackSprite(): string {
+  if (enemy.name === "Goblin") {
+    return goblinAttackSprite;
+  }
+
+  if (enemy.name === "Magician") {
+    return magicianAttackSprite;
+  }
+
+  return ogreAttackSprite;
+}
 
 /* =========================
    RENDER
 ========================= */
 
 function render(): void {
-  const heroHealthPercentage =
-    (hero.currentHealth / hero.maxHealth) * 100;
+  const heroHealthPercentage = (hero.currentHealth / hero.maxHealth) * 100;
 
-  const heroManaPercentage =
-    (hero.currentMana / hero.maxMana) * 100;
+  const heroManaPercentage = (hero.currentMana / hero.maxMana) * 100;
 
-  const heroXpPercentage =
-    (hero.experience /
-      hero.experienceToNextLevel) *
-    100;
+  const heroXpPercentage = (hero.experience / hero.experienceToNextLevel) * 100;
 
-  const enemyHealthPercentage =
-    (enemy.currentHealth /
-      enemy.maxHealth) *
-    100;
+  const enemyHealthPercentage = (enemy.currentHealth / enemy.maxHealth) * 100;
 
   /* =========================
-     COMBAT LOG HTML
+     COMBAT LOG
   ========================= */
 
   const combatLogHtml = combatLog
     .slice(0, 8)
-    .map(
-      (message) =>
-        `<p>${message}</p>`,
-    )
+    .map((message) => `<p>${message}</p>`)
     .join("");
 
   /* =========================
-     INVENTORY HTML
+     INVENTORY
   ========================= */
 
-  const inventoryHtml =
-    hero.inventory.items
-      .map((item) => {
-        const buttonText =
-          item.type ===
-          ItemType.Potion
-            ? "Use"
-            : "Equip";
+  const inventoryHtml = hero.inventory.items
+    .map((item) => {
+      const buttonText = item.type === ItemType.Potion ? "Use" : "Equip";
 
-        const icon =
-          getItemIcon(item);
-
-        return `
+      return `
           <div class="inventory-item">
 
             <img
               class="item-icon"
-              src="${icon}"
+              src="${getItemIcon(item)}"
               alt="${item.name}"
             />
 
@@ -313,11 +223,11 @@ function render(): void {
 
           </div>
         `;
-      })
-      .join("");
+    })
+    .join("");
 
   /* =========================
-     EQUIPMENT HTML
+     EQUIPMENT
   ========================= */
 
   const equipmentHtml = `
@@ -328,9 +238,7 @@ function render(): void {
           ? `
             <img
               class="item-icon"
-              src="${getItemIcon(
-                hero.equipment.weapon,
-              )}"
+              src="${getItemIcon(hero.equipment.weapon)}"
               alt="Weapon"
             />
           `
@@ -340,10 +248,7 @@ function render(): void {
       <span>Weapon</span>
 
       <strong>
-        ${
-          hero.equipment.weapon
-            ?.name ?? "Empty"
-        }
+        ${hero.equipment.weapon?.name ?? "Empty"}
       </strong>
 
     </div>
@@ -355,9 +260,7 @@ function render(): void {
           ? `
             <img
               class="item-icon"
-              src="${getItemIcon(
-                hero.equipment.armor,
-              )}"
+              src="${getItemIcon(hero.equipment.armor)}"
               alt="Armor"
             />
           `
@@ -367,10 +270,7 @@ function render(): void {
       <span>Armor</span>
 
       <strong>
-        ${
-          hero.equipment.armor
-            ?.name ?? "Empty"
-        }
+        ${hero.equipment.armor?.name ?? "Empty"}
       </strong>
 
     </div>
@@ -382,9 +282,7 @@ function render(): void {
           ? `
             <img
               class="item-icon"
-              src="${getItemIcon(
-                hero.equipment.ring,
-              )}"
+              src="${getItemIcon(hero.equipment.ring)}"
               alt="Ring"
             />
           `
@@ -394,72 +292,62 @@ function render(): void {
       <span>Ring</span>
 
       <strong>
-        ${
-          hero.equipment.ring
-            ?.name ?? "Empty"
-        }
+        ${hero.equipment.ring?.name ?? "Empty"}
       </strong>
 
     </div>
   `;
 
   /* =========================
-     SHOP HTML
+     SHOP
   ========================= */
 
   const shopHtml = shop.items
     .map((item) => {
-      const icon =
-        getItemIcon(item);
-
       return `
-        <div class="shop-item">
-
-          <img
-            class="shop-item-icon"
-            src="${icon}"
-            alt="${item.name}"
-          />
-
-          <div class="shop-item-details">
-
-            <strong>
-              ${item.name}
-            </strong>
-
-            <span>
-              ${item.weight} kg
-            </span>
-
-          </div>
-
-          <div class="shop-price">
+          <div class="shop-item">
 
             <img
-              src="${goldIcon}"
-              alt="Gold"
+              class="shop-item-icon"
+              src="${getItemIcon(item)}"
+              alt="${item.name}"
             />
 
-            <strong>
-              ${item.value}
-            </strong>
+            <div class="shop-item-details">
+
+              <strong>
+                ${item.name}
+              </strong>
+
+              <span>
+                ${item.weight} kg
+              </span>
+
+            </div>
+
+            <div class="shop-price">
+
+              <img
+                src="${goldIcon}"
+                alt="Gold"
+              />
+
+              <strong>
+                ${item.value}
+              </strong>
+
+            </div>
+
+            <button
+              class="buy-button"
+              data-item-id="${item.id}"
+              ${hero.gold < item.value ? "disabled" : ""}
+            >
+              Buy
+            </button>
 
           </div>
-
-          <button
-            class="buy-button"
-            data-item-id="${item.id}"
-            ${
-              hero.gold < item.value
-                ? "disabled"
-                : ""
-            }
-          >
-            Buy
-          </button>
-
-        </div>
-      `;
+        `;
     })
     .join("");
 
@@ -473,10 +361,7 @@ function render(): void {
     case "inventory":
       activePanelHtml = `
         <section
-          class="
-            hero-panel
-            inventory-panel
-          "
+          class="hero-panel inventory-panel"
           style="
             --panel-bg:
             url('${inventoryBackground}')
@@ -504,10 +389,7 @@ function render(): void {
     case "equipment":
       activePanelHtml = `
         <section
-          class="
-            hero-panel
-            equipment-panel
-          "
+          class="hero-panel equipment-panel"
           style="
             --panel-bg:
             url('${equipmentBackground}')
@@ -528,10 +410,7 @@ function render(): void {
     case "shop":
       activePanelHtml = `
         <section
-          class="
-            hero-panel
-            shop-panel
-          "
+          class="hero-panel shop-panel"
           style="
             --panel-bg:
             url('${shopBackground}')
@@ -562,480 +441,464 @@ function render(): void {
   ========================= */
 
   document.querySelector<HTMLDivElement>(
-    "#app",
-  )!.innerHTML = `
+  "#app",
+)!.innerHTML = `
+  <main class="game">
 
-    <main class="game">
+    <h1 class="main-game-title">
+      Conan's Codeventures
+    </h1>
 
-      <h1 class="main-game-title">
-        Conan's Codeventures
-      </h1>
+    <section class="battle-layout">
 
-      <section class="battle-layout">
+      <!-- HERO -->
 
-        <!-- =====================
-             HERO
-        ====================== -->
+      <section class="character-card">
 
-        <section class="character-card">
+        <h2 class="character-name">
+          ${hero.name}
+          ${hero.isDead() ? "☠️" : ""}
+        </h2>
 
-          <h2 class="character-name">
-            ${hero.name}
+        <div class="sprite-container">
 
-            ${
-              hero.isDead()
-                ? "☠️"
-                : ""
-            }
-          </h2>
+          <img
+            id="hero-sprite"
+            class="character-sprite"
+            src="${conanSprite}"
+            alt="Conan"
+          />
 
-          <div class="sprite-container">
+          <img
+            id="level-up"
+            class="level-up"
+            src="${levelUpIcon}"
+            alt="Level Up"
+          />
 
-            <img
-              id="hero-sprite"
-              class="character-sprite"
-              src="${conanSprite}"
-              alt="Conan"
-            />
+        </div>
 
-            <img
-              id="level-up"
-              class="level-up"
-              src="${levelUpIcon}"
-              alt="Level Up"
-            />
+        <div class="stats">
+
+          <div class="stat-row">
+            <span>Level</span>
+            <strong>${hero.level}</strong>
+          </div>
+
+          <div class="stat-label">
+            <span>HP</span>
+            <span>
+              ${hero.currentHealth} / ${hero.maxHealth}
+            </span>
+          </div>
+
+          <div class="bar">
+            <div
+              class="health-fill"
+              style="width: ${heroHealthPercentage}%"
+            ></div>
+          </div>
+
+          <div class="stat-label">
+            <span>Mana</span>
+            <span>
+              ${hero.currentMana} / ${hero.maxMana}
+            </span>
+          </div>
+
+          <div class="bar">
+            <div
+              class="mana-fill"
+              style="width: ${heroManaPercentage}%"
+            ></div>
+          </div>
+
+          <div class="stat-label">
+            <span>XP</span>
+            <span>
+              ${hero.experience}
+              /
+              ${hero.experienceToNextLevel}
+            </span>
+          </div>
+
+          <div class="bar">
+            <div
+              class="xp-fill"
+              style="width: ${heroXpPercentage}%"
+            ></div>
+          </div>
+
+          <div class="stat-row">
+
+            <span class="stat-name">
+              <img
+                class="stat-icon"
+                src="${goldIcon}"
+                alt="Gold"
+              />
+              Gold
+            </span>
+
+            <strong>${hero.gold}</strong>
 
           </div>
 
-          <div class="stats">
+          <div class="stat-row">
 
-            <div class="stat-row">
+            <span class="stat-name">
+              <img
+                class="stat-icon"
+                src="${basicAxeIcon}"
+                alt="Attack"
+              />
+              Attack
+            </span>
 
-              <span>Level</span>
+            <strong>${hero.getAttack()}</strong>
 
-              <strong>
-                ${hero.level}
-              </strong>
+          </div>
 
-            </div>
+          <div class="stat-row">
 
-            <div class="stat-label">
+            <span class="stat-name">
+              <img
+                class="stat-icon"
+                src="${armorIcon}"
+                alt="Defense"
+              />
+              Defense
+            </span>
 
-              <span>HP</span>
+            <strong>${hero.getDefense()}</strong>
 
-              <span>
-                ${hero.currentHealth}
-                /
-                ${hero.maxHealth}
-              </span>
+          </div>
 
-            </div>
+          <div class="stat-row">
 
-            <div class="bar">
+            <span class="stat-name">
+              <img
+                class="stat-icon"
+                src="${strengthIcon}"
+                alt="Strength"
+              />
+              Strength
+            </span>
 
-              <div
-                class="health-fill"
-                style="
-                  width:
-                  ${heroHealthPercentage}%
-                "
-              ></div>
+            <strong>${hero.getStrength()}</strong>
 
-            </div>
+          </div>
 
-            <div class="stat-label">
+        </div>
 
-              <span>Mana</span>
+      </section>
 
-              <span>
-                ${hero.currentMana}
-                /
-                ${hero.maxMana}
-              </span>
+      <!-- CENTER -->
 
-            </div>
+      <section class="center-column">
 
-            <div class="bar">
+        <section class="combat-log-card">
 
-              <div
-                class="mana-fill"
-                style="
-                  width:
-                  ${heroManaPercentage}%
-                "
-              ></div>
+          <h2>
+            Combat Log
+          </h2>
 
-            </div>
+          <div class="combat-log">
 
-            <div class="stat-label">
-
-              <span>XP</span>
-
-              <span>
-                ${hero.experience}
-                /
-                ${hero.experienceToNextLevel}
-              </span>
-
-            </div>
-
-            <div class="bar">
-
-              <div
-                class="xp-fill"
-                style="
-                  width:
-                  ${heroXpPercentage}%
-                "
-              ></div>
-
-            </div>
-
-            <div class="stat-row">
-
-              <span class="stat-name">
-
-                <img
-                  class="stat-icon"
-                  src="${goldIcon}"
-                  alt=""
-                />
-
-                Gold
-
-              </span>
-
-              <strong>
-                ${hero.gold}
-              </strong>
-
-            </div>
-
-            <div class="stat-row">
-
-              <span class="stat-name">
-
-                <img
-                  class="stat-icon"
-                  src="${basicAxeIcon}"
-                  alt=""
-                />
-
-                Attack
-
-              </span>
-
-              <strong>
-                ${hero.getAttack()}
-              </strong>
-
-            </div>
-
-            <div class="stat-row">
-
-              <span class="stat-name">
-
-                <img
-                  class="stat-icon"
-                  src="${armorIcon}"
-                  alt=""
-                />
-
-                Defense
-
-              </span>
-
-              <strong>
-                ${hero.getDefense()}
-              </strong>
-
-            </div>
-
-            <div class="stat-row">
-
-              <span class="stat-name">
-
-                <img
-                  class="stat-icon"
-                  src="${strengthIcon}"
-                  alt=""
-                />
-
-                Strength
-
-              </span>
-
-              <strong>
-                ${hero.getStrength()}
-              </strong>
-
-            </div>
+            ${
+              combatLogHtml ||
+              `<p>No combat yet.</p>`
+            }
 
           </div>
 
         </section>
 
-        <!-- =====================
-             CENTER
-        ====================== -->
+        <button
+          id="attack-button"
+          class="attack-button"
+          ${
+            enemy.isDead() ||
+            hero.isDead()
+              ? "disabled"
+              : ""
+          }
+        >
+          ⚔ Attack
+        </button>
 
-        <section class="center-column">
+      </section>
 
-          <section class="combat-log-card">
+      <!-- ENEMY -->
 
-            <h2>
-              Combat Log
-            </h2>
+      <section class="enemy-card">
 
-            <div class="combat-log">
+        <h2 class="character-name">
 
+          ${enemy.name}
+
+          ${enemy.isDead() ? "☠️" : ""}
+
+        </h2>
+
+        <div
+          class="
+            sprite-container
+            enemy-sprite-container
+          "
+        >
+
+          <img
+            id="enemy-sprite"
+
+            class="
+              character-sprite
               ${
-                combatLogHtml ||
-                `
-                  <p>
-                    No combat yet.
-                  </p>
-                `
+                enemy.isDead()
+                  ? "dead-sprite"
+                  : ""
               }
+            "
 
-            </div>
+            src="${getEnemySprite()}"
 
-          </section>
+            alt="${enemy.name}"
+          />
 
-          <button
-            id="attack-button"
-            class="attack-button"
-            ${
-              enemy.isDead() ||
-              hero.isDead()
-                ? "disabled"
-                : ""
-            }
-          >
-            ⚔ Attack
-          </button>
+          ${
+            enemy.name === "Magician" &&
+            !enemy.isDead()
+              ? `
+                <img
+                  id="fire-magic"
+                  class="fire-magic"
+                  src="${fireMagicSprite}"
+                  alt="Fire Magic"
+                />
+              `
+              : ""
+          }
 
-        </section>
+        </div>
 
-        <!-- =====================
-             ENEMY
-        ====================== -->
+        ${
+          enemy.isDead()
+            ? `
+              <button
+                id="next-enemy-button"
+                class="next-enemy-button"
 
-        <section class="enemy-card">
-
-          <h2 class="character-name">
-
-            ${enemy.name}
-
-            ${
-              enemy.isDead()
-                ? "☠️"
-                : ""
-            }
-
-          </h2>
-
-          <div class="sprite-container">
-
-            <img
-              id="enemy-sprite"
-
-              class="
-                character-sprite
                 ${
-                  enemy.isDead()
-                    ? "dead-sprite"
+                  enemyIndex >=
+                  enemies.length - 1
+                    ? "disabled"
                     : ""
                 }
-              "
+              >
+                ${
+                  enemyIndex >=
+                  enemies.length - 1
+                    ? "All Enemies Defeated"
+                    : "Next Enemy →"
+                }
+              </button>
+            `
+            : ""
+        }
 
-              src="${
-                enemy.isDead()
-                  ? goblinDeadSprite
-                  : goblinSprite
-              }"
+        <div class="stats">
 
-              alt="Goblin"
-            />
+          <div class="stat-label">
+            <span>HP</span>
+
+            <span>
+              ${enemy.currentHealth}
+              /
+              ${enemy.maxHealth}
+            </span>
+          </div>
+
+          <div class="bar">
+
+            <div
+              class="enemy-health-fill"
+              style="width: ${enemyHealthPercentage}%"
+            ></div>
 
           </div>
 
-          <div class="stats">
+          <div class="stat-row">
 
-            <div class="stat-label">
+            <span class="stat-name">
 
-              <span>HP</span>
+              <img
+                class="stat-icon"
+                src="${basicAxeIcon}"
+                alt="Attack"
+              />
 
-              <span>
-                ${enemy.currentHealth}
-                /
-                ${enemy.maxHealth}
-              </span>
+              Attack
 
-            </div>
+            </span>
 
-            <div class="bar">
-
-              <div
-                class="enemy-health-fill"
-                style="
-                  width:
-                  ${enemyHealthPercentage}%
-                "
-              ></div>
-
-            </div>
-
-            <div class="stat-row">
-
-              <span class="stat-name">
-
-                <img
-                  class="stat-icon"
-                  src="${basicAxeIcon}"
-                  alt=""
-                />
-
-                Attack
-
-              </span>
-
-              <strong>
-                ${enemy.attackValue}
-              </strong>
-
-            </div>
-
-            <div class="stat-row">
-
-              <span class="stat-name">
-
-                <img
-                  class="stat-icon"
-                  src="${armorIcon}"
-                  alt=""
-                />
-
-                Defense
-
-              </span>
-
-              <strong>
-                ${enemy.defense}
-              </strong>
-
-            </div>
-
-            <div class="stat-row">
-
-              <span class="stat-name">
-
-                <img
-                  class="stat-icon"
-                  src="${xpIcon}"
-                  alt=""
-                />
-
-                XP Reward
-
-              </span>
-
-              <strong>
-                ${enemy.experienceReward}
-              </strong>
-
-            </div>
-
-            <div class="stat-row">
-
-              <span class="stat-name">
-
-                <img
-                  class="stat-icon"
-                  src="${goldIcon}"
-                  alt=""
-                />
-
-                Gold Reward
-
-              </span>
-
-              <strong>
-                ${enemy.goldReward}
-              </strong>
-
-            </div>
+            <strong>
+              ${enemy.attackValue}
+            </strong>
 
           </div>
 
-        </section>
+          <div class="stat-row">
+
+            <span class="stat-name">
+
+              <img
+                class="stat-icon"
+                src="${armorIcon}"
+                alt="Defense"
+              />
+
+              Defense
+
+            </span>
+
+            <strong>
+              ${enemy.defense}
+            </strong>
+
+          </div>
+
+          <div class="stat-row">
+
+            <span class="stat-name">
+
+              <img
+                class="stat-icon"
+                src="${xpIcon}"
+                alt="XP"
+              />
+
+              XP Reward
+
+            </span>
+
+            <strong>
+              ${enemy.experienceReward}
+            </strong>
+
+          </div>
+
+          <div class="stat-row">
+
+            <span class="stat-name">
+
+              <img
+                class="stat-icon"
+                src="${goldIcon}"
+                alt="Gold"
+              />
+
+              Gold Reward
+
+            </span>
+
+            <strong>
+              ${enemy.goldReward}
+            </strong>
+
+          </div>
+
+        </div>
 
       </section>
 
-      <!-- =====================
-           LOWER MENU
-      ====================== -->
+    </section>
 
-      <section class="lower-layout">
+    <!-- LOWER PANEL -->
 
-        <section class="hero-controls">
+    <section class="lower-layout">
 
-          <div class="panel-buttons">
+      <section class="hero-controls">
 
-            <button
-              id="inventory-toggle"
+        <div class="panel-buttons">
 
-              class="${
-                activePanel ===
-                "inventory"
-                  ? "active"
-                  : ""
-              }"
-            >
-              Inventory
-            </button>
+          <button
+            id="inventory-toggle"
+            class="${
+              activePanel === "inventory"
+                ? "active"
+                : ""
+            }"
+          >
+            Inventory
+          </button>
 
-            <button
-              id="equipment-toggle"
+          <button
+            id="equipment-toggle"
+            class="${
+              activePanel === "equipment"
+                ? "active"
+                : ""
+            }"
+          >
+            Equipment
+          </button>
 
-              class="${
-                activePanel ===
-                "equipment"
-                  ? "active"
-                  : ""
-              }"
-            >
-              Equipment
-            </button>
+          <button
+            id="shop-toggle"
+            class="${
+              activePanel === "shop"
+                ? "active"
+                : ""
+            }"
+          >
+            Shop
+          </button>
 
-            <button
-              id="shop-toggle"
+        </div>
 
-              class="${
-                activePanel ===
-                "shop"
-                  ? "active"
-                  : ""
-              }"
-            >
-              Shop
-            </button>
-
-          </div>
-
-          ${activePanelHtml}
-
-        </section>
+        ${activePanelHtml}
 
       </section>
 
-    </main>
+    </section>
+
+    <!-- END SCREEN -->
+
+    ${
+      enemyIndex === enemies.length - 1 &&
+      enemy.isDead()
+        ? `
+          <div class="end-screen">
+
+            <div class="end-screen-content">
+
+              <h2>
+                Thanks for playing!
+              </h2>
+
+              <p class="end-created">
+                Created by
+              </p>
+
+              <p class="end-author">
+                Gergo Stroban
+              </p>
+
+            </div>
+
+          </div>
+        `
+        : ""
+    }
+
+  </main>
   `;
 
   setupAttackButton();
   setupPanelButtons();
   setupItemButtons();
   setupShopButtons();
+  setupNextEnemyButton();
 }
 
 /* =========================
@@ -1044,169 +907,201 @@ function render(): void {
 
 function setupAttackButton(): void {
   const attackButton =
-    document.querySelector<HTMLButtonElement>(
-      "#attack-button",
-    );
+    document.querySelector<HTMLButtonElement>("#attack-button");
 
-  attackButton?.addEventListener(
-    "click",
-    async () => {
-      const enemyHpBefore =
-        enemy.currentHealth;
+  attackButton?.addEventListener("click", async () => {
+    const enemyHpBefore = enemy.currentHealth;
 
-      const heroHpBefore =
-        hero.currentHealth;
+    const heroHpBefore = hero.currentHealth;
 
-      const levelBefore =
-        hero.level;
+    const levelBefore = hero.level;
 
-      const heroSprite =
-        document.querySelector<HTMLImageElement>(
-          "#hero-sprite",
-        );
+    const heroSprite = document.querySelector<HTMLImageElement>("#hero-sprite");
 
-      const enemySprite =
-        document.querySelector<HTMLImageElement>(
-          "#enemy-sprite",
-        );
+    const enemySprite =
+      document.querySelector<HTMLImageElement>("#enemy-sprite");
 
-      /* =====================
+    /* =====================
          HERO ATTACK
       ====================== */
 
-      if (heroSprite) {
-        heroSprite.src =
-          conanAttackSprite;
-      }
+    if (heroSprite) {
+      heroSprite.src = conanAttackSprite;
+    }
 
-      heroSprite?.classList.add(
-        "hero-attacking",
+    heroSprite?.classList.add("hero-attacking");
+
+    await wait(180);
+
+    const heroAttacked = hero.attack(enemy);
+
+    const leveledUp = hero.level > levelBefore;
+
+    if (heroAttacked) {
+      const damageDealt = enemyHpBefore - enemy.currentHealth;
+
+      combatLog.unshift(
+        `${hero.name} dealt ${damageDealt} damage to ${enemy.name}.`,
       );
 
-      await wait(180);
+      enemySprite?.classList.add("taking-damage");
+    }
 
-      const heroAttacked =
-        hero.attack(enemy);
+    await wait(180);
 
-      const leveledUp =
-        hero.level >
-        levelBefore;
+    heroSprite?.classList.remove("hero-attacking");
 
-      if (heroAttacked) {
-        const damageDealt =
-          enemyHpBefore -
-          enemy.currentHealth;
+    if (heroSprite) {
+      heroSprite.src = conanSprite;
+    }
 
-        combatLog.unshift(
-          `${hero.name} dealt ${damageDealt} damage to ${enemy.name}.`,
-        );
+    enemySprite?.classList.remove("taking-damage");
 
-        enemySprite?.classList.add(
-          "taking-damage",
-        );
-      }
-
-      await wait(180);
-
-      heroSprite?.classList.remove(
-        "hero-attacking",
-      );
-
-      if (heroSprite) {
-        heroSprite.src =
-          conanSprite;
-      }
-
-      enemySprite?.classList.remove(
-        "taking-damage",
-      );
-
-      /* =====================
-         ENEMY DEAD
+    /* =====================
+         ENEMY DIED
       ====================== */
 
-      if (enemy.isDead()) {
-        combatLog.unshift(
-          `${enemy.name} died! ${hero.name} gained ${enemy.experienceReward} XP and ${enemy.goldReward} gold.`,
-        );
+    if (enemy.isDead()) {
+      combatLog.unshift(
+        `${enemy.name} died! ${hero.name} gained ${enemy.experienceReward} XP and ${enemy.goldReward} gold.`,
+      );
 
-        render();
+      render();
 
-        if (leveledUp) {
-          const levelUpImage =
-            document.querySelector<HTMLImageElement>(
-              "#level-up",
-            );
+      if (leveledUp) {
+        const levelUpImage =
+          document.querySelector<HTMLImageElement>("#level-up");
 
-          levelUpImage?.classList.add(
-            "show",
-          );
-        }
-
-        return;
+        levelUpImage?.classList.add("show");
       }
 
-      /* =====================
-         ENEMY ATTACK
+      return;
+    }
+
+    /* =====================
+         MAGICIAN ATTACK
       ====================== */
 
+    if (enemy.name === "Magician") {
+      const fireMagic = document.querySelector<HTMLImageElement>("#fire-magic");
+
+      /*
+       * Switch Magician to
+       * casting sprite.
+       */
       if (enemySprite) {
-        enemySprite.src =
-          goblinAttackSprite;
+        enemySprite.src = magicianAttackSprite;
       }
 
-      enemySprite?.classList.add(
-        "enemy-attacking",
-      );
+      /*
+       * Start fireball.
+       */
+      fireMagic?.classList.add("fire-magic-casting");
 
-      await wait(180);
+      await wait(220);
 
-      const enemyAttacked =
-        enemy.attack(hero);
+      /*
+       * Apply actual damage.
+       */
+      const enemyAttacked = enemy.attack(hero);
 
       if (enemyAttacked) {
-        const damageDealt =
-          heroHpBefore -
-          hero.currentHealth;
+        const damageDealt = heroHpBefore - hero.currentHealth;
+
+        combatLog.unshift(
+          `${enemy.name} cast Fire Magic and dealt ${damageDealt} damage to ${hero.name}.`,
+        );
+
+        heroSprite?.classList.add("taking-damage");
+      }
+
+      await wait(280);
+
+      /*
+       * Remove fireball effect.
+       */
+      fireMagic?.classList.remove("fire-magic-casting");
+
+      heroSprite?.classList.remove("taking-damage");
+
+      /*
+       * Magician returns to
+       * idle sprite.
+       */
+      if (enemySprite) {
+        enemySprite.src = magicianSprite;
+      }
+    } else {
+
+    /* =====================
+         GOBLIN / OGRE ATTACK
+      ====================== */
+      if (enemySprite) {
+        enemySprite.src = getEnemyAttackSprite();
+      }
+
+      enemySprite?.classList.add("enemy-attacking");
+
+      await wait(180);
+
+      const enemyAttacked = enemy.attack(hero);
+
+      if (enemyAttacked) {
+        const damageDealt = heroHpBefore - hero.currentHealth;
 
         combatLog.unshift(
           `${enemy.name} dealt ${damageDealt} damage to ${hero.name}.`,
         );
 
-        heroSprite?.classList.add(
-          "taking-damage",
-        );
+        heroSprite?.classList.add("taking-damage");
       }
 
       await wait(180);
 
-      enemySprite?.classList.remove(
-        "enemy-attacking",
-      );
+      enemySprite?.classList.remove("enemy-attacking");
 
       if (enemySprite) {
-        enemySprite.src =
-          goblinSprite;
+        enemySprite.src = getEnemySprite();
       }
 
-      heroSprite?.classList.remove(
-        "taking-damage",
-      );
+      heroSprite?.classList.remove("taking-damage");
+    }
 
-      if (
-        hero.isDead() &&
-        !gameOverLogged
-      ) {
-        combatLog.unshift(
-          `${hero.name} died! Game Over.`,
-        );
+    /* =====================
+         GAME OVER
+      ====================== */
 
-        gameOverLogged = true;
-      }
+    if (hero.isDead() && !gameOverLogged) {
+      combatLog.unshift(`${hero.name} died! Game Over.`);
 
-      render();
-    },
-  );
+      gameOverLogged = true;
+    }
+
+    render();
+  });
+}
+
+/* =========================
+   NEXT ENEMY
+========================= */
+
+function setupNextEnemyButton(): void {
+  const nextEnemyButton =
+    document.querySelector<HTMLButtonElement>("#next-enemy-button");
+
+  nextEnemyButton?.addEventListener("click", () => {
+    if (enemyIndex >= enemies.length - 1) {
+      return;
+    }
+
+    enemyIndex++;
+
+    enemy = enemies[enemyIndex];
+
+    combatLog.unshift(`${enemy.name} appears!`);
+
+    render();
+  });
 }
 
 /* =========================
@@ -1215,49 +1110,30 @@ function setupAttackButton(): void {
 
 function setupPanelButtons(): void {
   const inventoryToggle =
-    document.querySelector<HTMLButtonElement>(
-      "#inventory-toggle",
-    );
+    document.querySelector<HTMLButtonElement>("#inventory-toggle");
 
   const equipmentToggle =
-    document.querySelector<HTMLButtonElement>(
-      "#equipment-toggle",
-    );
+    document.querySelector<HTMLButtonElement>("#equipment-toggle");
 
-  const shopToggle =
-    document.querySelector<HTMLButtonElement>(
-      "#shop-toggle",
-    );
+  const shopToggle = document.querySelector<HTMLButtonElement>("#shop-toggle");
 
-  inventoryToggle?.addEventListener(
-    "click",
-    () => {
-      activePanel =
-        "inventory";
+  inventoryToggle?.addEventListener("click", () => {
+    activePanel = "inventory";
 
-      render();
-    },
-  );
+    render();
+  });
 
-  equipmentToggle?.addEventListener(
-    "click",
-    () => {
-      activePanel =
-        "equipment";
+  equipmentToggle?.addEventListener("click", () => {
+    activePanel = "equipment";
 
-      render();
-    },
-  );
+    render();
+  });
 
-  shopToggle?.addEventListener(
-    "click",
-    () => {
-      activePanel =
-        "shop";
+  shopToggle?.addEventListener("click", () => {
+    activePanel = "shop";
 
-      render();
-    },
-  );
+    render();
+  });
 }
 
 /* =========================
@@ -1266,43 +1142,27 @@ function setupPanelButtons(): void {
 
 function setupItemButtons(): void {
   const itemButtons =
-    document.querySelectorAll<HTMLButtonElement>(
-      ".item-button",
-    );
+    document.querySelectorAll<HTMLButtonElement>(".item-button");
 
-  itemButtons.forEach(
-    (button) => {
-      button.addEventListener(
-        "click",
-        () => {
-          const itemId =
-            Number(
-              button.dataset.itemId,
-            );
+  itemButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const itemId = Number(button.dataset.itemId);
 
-          const item =
-            hero.inventory.getItemById(
-              itemId,
-            );
+      const item = hero.inventory.getItemById(itemId);
 
-          if (!item) {
-            return;
-          }
+      if (!item) {
+        return;
+      }
 
-          if (
-            item.type ===
-            ItemType.Potion
-          ) {
-            hero.useItem(itemId);
-          } else {
-            hero.equipItem(itemId);
-          }
+      if (item.type === ItemType.Potion) {
+        hero.useItem(itemId);
+      } else {
+        hero.equipItem(itemId);
+      }
 
-          render();
-        },
-      );
-    },
-  );
+      render();
+    });
+  });
 }
 
 /* =========================
@@ -1311,59 +1171,38 @@ function setupItemButtons(): void {
 
 function setupShopButtons(): void {
   const buyButtons =
-    document.querySelectorAll<HTMLButtonElement>(
-      ".buy-button",
-    );
+    document.querySelectorAll<HTMLButtonElement>(".buy-button");
 
-  buyButtons.forEach(
-    (button) => {
-      button.addEventListener(
-        "click",
-        () => {
-          const itemId =
-            Number(
-              button.dataset.itemId,
-            );
+  buyButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const itemId = Number(button.dataset.itemId);
 
-          const item =
-            shop.getItemById(
-              itemId,
-            );
+      const item = shop.getItemById(itemId);
 
-          if (!item) {
-            return;
-          }
+      if (!item) {
+        return;
+      }
 
-          const bought =
-            shop.buyItem(
-              itemId,
-              hero,
-            );
+      const bought = shop.buyItem(itemId, hero);
 
-          if (bought) {
-            combatLog.unshift(
-              `${hero.name} bought ${item.name} for ${item.value} gold.`,
-            );
-          } else {
-            combatLog.unshift(
-              `Could not buy ${item.name}.`,
-            );
-          }
+      if (bought) {
+        combatLog.unshift(
+          `${hero.name} bought ${item.name} for ${item.value} gold.`,
+        );
+      } else {
+        combatLog.unshift(`Could not buy ${item.name}.`);
+      }
 
-          render();
-        },
-      );
-    },
-  );
+      render();
+    });
+  });
 }
 
 /* =========================
-   ICON HELPER
+   ITEM ICON
 ========================= */
 
-function getItemIcon(
-  item: Item,
-): string {
+function getItemIcon(item: Item): string {
   switch (item.name) {
     case "Axe":
       return basicAxeIcon;
@@ -1392,20 +1231,13 @@ function getItemIcon(
 }
 
 /* =========================
-   WAIT HELPER
+   WAIT
 ========================= */
 
-function wait(
-  milliseconds: number,
-): Promise<void> {
-  return new Promise(
-    (resolve) => {
-      setTimeout(
-        resolve,
-        milliseconds,
-      );
-    },
-  );
+function wait(milliseconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, milliseconds);
+  });
 }
 
 render();

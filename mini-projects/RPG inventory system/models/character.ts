@@ -16,7 +16,7 @@ export class Character {
     public currentHealth = 100,
     public maxMana = 50,
     public currentMana = 50,
-    public gold = 1000,
+    public gold = 800,
     public baseAttack = 5,
     public baseDefense = 0,
     public baseStrength = 5,

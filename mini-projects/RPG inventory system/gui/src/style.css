@@ -1,3 +1,7 @@
+/* =========================
+   GLOBAL
+========================= */
+
 * {
   box-sizing: border-box;
 }
@@ -9,15 +13,16 @@
     sans-serif;
 
   color: #f4f0e6;
-
   background: #111;
 }
 
+html,
 body {
   margin: 0;
 
+  width: 100%;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100%;
 
   background:
     radial-gradient(
@@ -28,24 +33,23 @@ body {
     );
 }
 
+body {
+  min-height: 100vh;
+}
+
 button {
   font: inherit;
 }
+
 
 /* =========================
    GAME
 ========================= */
 
 .game {
-  width:
-    min(
-      1450px,
-      95%
-    );
+  width: min(1450px, 95%);
 
-  margin:
-    0
-    auto;
+  margin: 0 auto;
 
   padding:
     24px
@@ -59,11 +63,9 @@ button {
     0
     28px;
 
-  text-align:
-    center;
+  text-align: center;
 
-  color:
-    #e5c178;
+  color: #e5c178;
 
   font-size:
     clamp(
@@ -72,8 +74,7 @@ button {
       46px
     );
 
-  letter-spacing:
-    2px;
+  letter-spacing: 2px;
 
   text-shadow:
     0 2px 0 #000,
@@ -86,32 +87,22 @@ button {
       );
 }
 
+
 /* =========================
-   BATTLE
+   BATTLE LAYOUT
 ========================= */
 
 .battle-layout {
   display: grid;
 
   grid-template-columns:
-    minmax(
-      260px,
-      1fr
-    )
-    minmax(
-      320px,
-      1.15fr
-    )
-    minmax(
-      260px,
-      1fr
-    );
+    minmax(260px, 1fr)
+    minmax(320px, 1.15fr)
+    minmax(260px, 1fr);
 
-  gap:
-    24px;
+  gap: 24px;
 
-  align-items:
-    start;
+  align-items: start;
 }
 
 .character-card,
@@ -122,8 +113,7 @@ button {
     solid
     #5a4631;
 
-  border-radius:
-    14px;
+  border-radius: 14px;
 
   background:
     linear-gradient(
@@ -154,8 +144,7 @@ button {
 
 .character-card,
 .enemy-card {
-  padding:
-    20px;
+  padding: 20px;
 }
 
 .character-name {
@@ -164,58 +153,41 @@ button {
     0
     12px;
 
-  text-align:
-    center;
+  text-align: center;
 
-  color:
-    #e8c681;
+  font-size: 26px;
 
-  font-size:
-    26px;
+  color: #e8c681;
 }
+
 
 /* =========================
    SPRITES
 ========================= */
 
 .sprite-container {
-  position:
-    relative;
+  position: relative;
 
-  width:
-    100%;
+  width: 100%;
+  height: 270px;
 
-  height:
-    270px;
+  display: flex;
 
-  display:
-    flex;
+  align-items: flex-end;
+  justify-content: center;
 
-  align-items:
-    flex-end;
+  margin-bottom: 16px;
 
-  justify-content:
-    center;
-
-  margin-bottom:
-    16px;
-
-  overflow:
-    visible;
+  overflow: visible;
 }
 
 .character-sprite {
-  width:
-    256px;
+  width: 256px;
+  height: 256px;
 
-  height:
-    256px;
+  object-fit: contain;
 
-  object-fit:
-    contain;
-
-  image-rendering:
-    pixelated;
+  image-rendering: pixelated;
 
   filter:
     drop-shadow(
@@ -248,186 +220,80 @@ button {
     );
 }
 
-/* =========================
-   LEVEL UP
-========================= */
-
-.level-up {
-  position:
-    absolute;
-
-  z-index:
-    10;
-
-  width:
-    180px;
-
-  left:
-    50%;
-
-  top:
-    20px;
-
-  opacity:
-    0;
-
-  pointer-events:
-    none;
-
-  transform:
-    translateX(-50%)
-    translateY(20px)
-    scale(0.5);
-}
-
-.level-up.show {
-  animation:
-    levelUpAnimation
-    1.4s
-    ease-out;
-}
-
-@keyframes levelUpAnimation {
-  0% {
-    opacity:
-      0;
-
-    transform:
-      translateX(-50%)
-      translateY(30px)
-      scale(0.5);
-  }
-
-  25% {
-    opacity:
-      1;
-
-    transform:
-      translateX(-50%)
-      translateY(-10px)
-      scale(1.2);
-  }
-
-  70% {
-    opacity:
-      1;
-
-    transform:
-      translateX(-50%)
-      translateY(-25px)
-      scale(1);
-  }
-
-  100% {
-    opacity:
-      0;
-
-    transform:
-      translateX(-50%)
-      translateY(-50px)
-      scale(1);
-  }
-}
 
 /* =========================
    STATS
 ========================= */
 
 .stats {
-  display:
-    flex;
+  display: flex;
 
-  flex-direction:
-    column;
+  flex-direction: column;
 
-  gap:
-    7px;
+  gap: 7px;
 }
 
 .stat-row,
 .stat-label {
-  display:
-    flex;
+  display: flex;
 
-  justify-content:
-    space-between;
+  justify-content: space-between;
+  align-items: center;
 
-  align-items:
-    center;
-
-  gap:
-    16px;
+  gap: 16px;
 }
 
 .stat-row {
-  padding:
-    5px
-    0;
+  padding: 5px 0;
 }
 
 .stat-row span,
 .stat-label span:first-child {
-  color:
-    #c7b9a1;
+  color: #c7b9a1;
 }
 
 .stat-row strong {
-  color:
-    #f1d28c;
+  color: #f1d28c;
 }
 
 .stat-name {
-  display:
-    flex;
+  display: flex;
 
-  align-items:
-    center;
+  align-items: center;
 
-  gap:
-    8px;
+  gap: 8px;
 }
 
 .stat-icon {
-  width:
-    28px;
+  width: 28px;
+  height: 28px;
 
-  height:
-    28px;
+  flex-shrink: 0;
 
-  flex-shrink:
-    0;
+  object-fit: contain;
 
-  object-fit:
-    contain;
-
-  image-rendering:
-    pixelated;
+  image-rendering: pixelated;
 }
 
+
 /* =========================
-   BARS
+   STAT BARS
 ========================= */
 
 .bar {
-  width:
-    100%;
-
-  height:
-    14px;
+  width: 100%;
+  height: 14px;
 
   border:
     1px
     solid
     #111;
 
-  border-radius:
-    7px;
+  border-radius: 7px;
 
-  overflow:
-    hidden;
+  overflow: hidden;
 
-  background:
-    #36302b;
+  background: #36302b;
 
   box-shadow:
     inset
@@ -446,8 +312,7 @@ button {
 .enemy-health-fill,
 .mana-fill,
 .xp-fill {
-  height:
-    100%;
+  height: 100%;
 
   transition:
     width
@@ -483,31 +348,28 @@ button {
     );
 }
 
+
 /* =========================
-   CENTER
+   CENTER COLUMN
 ========================= */
 
 .center-column {
-  display:
-    flex;
+  display: flex;
 
-  flex-direction:
-    column;
+  flex-direction: column;
 
-  gap:
-    18px;
+  gap: 18px;
 }
+
 
 /* =========================
    COMBAT LOG
 ========================= */
 
 .combat-log-card {
-  min-height:
-    420px;
+  min-height: 420px;
 
-  padding:
-    20px;
+  padding: 20px;
 }
 
 .combat-log-card h2 {
@@ -516,24 +378,19 @@ button {
     0
     14px;
 
-  text-align:
-    center;
+  text-align: center;
 
-  color:
-    #e5c178;
+  color: #e5c178;
 }
 
 .combat-log {
-  max-height:
-    350px;
+  max-height: 350px;
 
-  overflow-y:
-    auto;
+  overflow-y: auto;
 }
 
 .combat-log p {
-  margin:
-    0;
+  margin: 0;
 
   padding:
     10px
@@ -544,20 +401,18 @@ button {
     solid
     #35302a;
 
-  font-size:
-    14px;
+  font-size: 14px;
 
-  line-height:
-    1.35;
+  line-height: 1.35;
 }
+
 
 /* =========================
    ATTACK BUTTON
 ========================= */
 
 .attack-button {
-  width:
-    100%;
+  width: 100%;
 
   padding:
     17px
@@ -568,8 +423,7 @@ button {
     solid
     #be4c39;
 
-  border-radius:
-    10px;
+  border-radius: 10px;
 
   background:
     linear-gradient(
@@ -578,32 +432,22 @@ button {
       #64130f
     );
 
-  color:
-    #fff1d1;
+  color: #fff1d1;
 
-  font-size:
-    20px;
+  font-size: 20px;
+  font-weight: 800;
 
-  font-weight:
-    800;
-
-  cursor:
-    pointer;
+  cursor: pointer;
 
   box-shadow:
-    0
-    6px
-    0
-    #350907,
-    0
-    12px
-    24px
-    rgba(
-      0,
-      0,
-      0,
-      0.35
-    );
+    0 6px 0 #350907,
+    0 12px 24px
+      rgba(
+        0,
+        0,
+        0,
+        0.35
+      );
 
   transition:
     transform
@@ -615,8 +459,7 @@ button {
 }
 
 .attack-button:hover:not(:disabled) {
-  filter:
-    brightness(1.15);
+  filter: brightness(1.15);
 
   transform:
     translateY(-2px);
@@ -627,54 +470,104 @@ button {
     translateY(3px);
 
   box-shadow:
-    0
-    3px
-    0
+    0 3px 0
     #350907;
 }
 
 .attack-button:disabled {
-  opacity:
-    0.4;
+  opacity: 0.4;
 
-  cursor:
-    not-allowed;
+  cursor: not-allowed;
 }
 
+
 /* =========================
-   LOWER LAYOUT
+   NEXT ENEMY BUTTON
+========================= */
+
+.next-enemy-button {
+  width: 100%;
+
+  margin-bottom: 14px;
+
+  padding:
+    13px
+    18px;
+
+  border:
+    1px
+    solid
+    #8c6735;
+
+  border-radius: 9px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #584021,
+      #2d2114
+    );
+
+  color: #f1d28c;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 4px 0
+    #171008;
+
+  transition:
+    transform
+    0.12s
+    ease,
+    filter
+    0.12s
+    ease;
+}
+
+.next-enemy-button:hover:not(:disabled) {
+  filter: brightness(1.2);
+
+  transform:
+    translateY(-2px);
+}
+
+.next-enemy-button:active:not(:disabled) {
+  transform:
+    translateY(2px);
+}
+
+.next-enemy-button:disabled {
+  opacity: 0.45;
+
+  cursor: not-allowed;
+}
+
+
+/* =========================
+   LOWER PANEL
 ========================= */
 
 .lower-layout {
-  width:
-    min(
-      768px,
-      100%
-    );
+  width: min(768px, 100%);
 
-  margin-top:
-    24px;
+  margin-top: 24px;
 }
 
 .hero-controls {
-  width:
-    100%;
+  width: 100%;
 }
 
 .panel-buttons {
-  display:
-    flex;
+  display: flex;
 
-  gap:
-    10px;
+  gap: 10px;
 
-  margin-bottom:
-    10px;
+  margin-bottom: 10px;
 }
-
-/* =========================
-   PANEL BUTTONS
-========================= */
 
 .panel-buttons button,
 .item-button,
@@ -688,20 +581,15 @@ button {
     solid
     #5c4b37;
 
-  border-radius:
-    8px;
+  border-radius: 8px;
 
-  background:
-    #29231e;
+  background: #29231e;
 
-  color:
-    #e7dac7;
+  color: #e7dac7;
 
-  cursor:
-    pointer;
+  cursor: pointer;
 
-  font-weight:
-    700;
+  font-weight: 700;
 
   transition:
     background
@@ -715,34 +603,29 @@ button {
 .panel-buttons button:hover,
 .item-button:hover,
 .buy-button:hover:not(:disabled) {
-  background:
-    #3a3027;
+  background: #3a3027;
 
   transform:
     translateY(-1px);
 }
 
 .panel-buttons button.active {
-  border-color:
-    #a6793e;
+  border-color: #a6793e;
 
-  background:
-    #6e281d;
+  background: #6e281d;
 
-  color:
-    #ffde9b;
+  color: #ffde9b;
 }
 
+
 /* =========================
-   GENERIC PANELS
+   GENERIC PANEL
 ========================= */
 
 .hero-panel {
-  position:
-    relative;
+  position: relative;
 
-  width:
-    100%;
+  width: 100%;
 
   background-image:
     var(--panel-bg);
@@ -758,13 +641,13 @@ button {
     100%;
 }
 
+
 /* =========================
-   INVENTORY
+   INVENTORY PANEL
 ========================= */
 
 .inventory-panel {
-  min-height:
-    380px;
+  min-height: 380px;
 
   padding:
     90px
@@ -773,19 +656,15 @@ button {
 }
 
 .panel-content {
-  width:
-    100%;
+  width: 100%;
 }
 
 .inventory-item {
-  display:
-    flex;
+  display: flex;
 
-  align-items:
-    center;
+  align-items: center;
 
-  gap:
-    14px;
+  gap: 14px;
 
   padding:
     8px
@@ -801,61 +680,47 @@ button {
       0.35
     );
 
-  color:
-    #2d1c11;
+  color: #2d1c11;
 }
 
 .inventory-item strong {
-  color:
-    #2d1c11;
+  color: #2d1c11;
 }
 
 .item-icon {
-  width:
-    48px;
+  width: 48px;
+  height: 48px;
 
-  height:
-    48px;
+  flex-shrink: 0;
 
-  flex-shrink:
-    0;
+  object-fit: contain;
 
-  object-fit:
-    contain;
-
-  image-rendering:
-    pixelated;
+  image-rendering: pixelated;
 }
 
 .item-details {
-  display:
-    flex;
+  display: flex;
 
-  flex:
-    1;
+  flex: 1;
 
-  flex-direction:
-    column;
+  flex-direction: column;
 
-  gap:
-    3px;
+  gap: 3px;
 }
 
 .item-details span {
-  color:
-    #66513d;
+  color: #66513d;
 
-  font-size:
-    13px;
+  font-size: 13px;
 }
 
+
 /* =========================
-   EQUIPMENT
+   EQUIPMENT PANEL
 ========================= */
 
 .equipment-panel {
-  min-height:
-    380px;
+  min-height: 380px;
 
   padding:
     90px
@@ -864,33 +729,26 @@ button {
 }
 
 .equipment-content {
-  display:
-    flex;
+  display: flex;
 
-  flex-direction:
-    column;
+  flex-direction: column;
 
-  gap:
-    6px;
+  gap: 6px;
 }
 
 .equipment-item {
-  display:
-    grid;
+  display: grid;
 
   grid-template-columns:
     48px
     100px
     1fr;
 
-  align-items:
-    center;
+  align-items: center;
 
-  gap:
-    14px;
+  gap: 14px;
 
-  min-height:
-    60px;
+  min-height: 60px;
 
   padding:
     8px
@@ -908,48 +766,38 @@ button {
 }
 
 .equipment-item span {
-  color:
-    #c4b39c;
+  color: #c4b39c;
 }
 
 .equipment-item strong {
-  color:
-    #edcd87;
+  color: #edcd87;
 }
 
+
 /* =========================
-   SHOP
+   SHOP PANEL
 ========================= */
 
 .shop-panel {
-  min-height:
-    512px;
+  min-height: 512px;
 
   padding:
     125px
     45px
     55px
     355px;
-
-  background-size:
-    100%
-    100%;
 }
 
 .shop-content {
-  display:
-    flex;
+  display: flex;
 
-  flex-direction:
-    column;
+  flex-direction: column;
 
-  gap:
-    5px;
+  gap: 5px;
 }
 
 .shop-item {
-  display:
-    grid;
+  display: grid;
 
   grid-template-columns:
     42px
@@ -957,14 +805,11 @@ button {
     auto
     70px;
 
-  align-items:
-    center;
+  align-items: center;
 
-  gap:
-    10px;
+  gap: 10px;
 
-  min-height:
-    60px;
+  min-height: 60px;
 
   padding:
     5px
@@ -980,8 +825,7 @@ button {
       0.35
     );
 
-  border-radius:
-    5px;
+  border-radius: 5px;
 
   background:
     rgba(
@@ -993,69 +837,49 @@ button {
 }
 
 .shop-item-icon {
-  width:
-    42px;
+  width: 42px;
+  height: 42px;
 
-  height:
-    42px;
+  object-fit: contain;
 
-  object-fit:
-    contain;
-
-  image-rendering:
-    pixelated;
+  image-rendering: pixelated;
 }
 
 .shop-item-details {
-  display:
-    flex;
+  display: flex;
 
-  flex-direction:
-    column;
+  flex-direction: column;
 
-  gap:
-    3px;
+  gap: 3px;
 }
 
 .shop-item-details strong {
-  color:
-    #f1d28c;
+  color: #f1d28c;
 }
 
 .shop-item-details span {
-  color:
-    #b8aa98;
+  color: #b8aa98;
 
-  font-size:
-    12px;
+  font-size: 12px;
 }
 
 .shop-price {
-  display:
-    flex;
+  display: flex;
 
-  align-items:
-    center;
+  align-items: center;
 
-  gap:
-    5px;
+  gap: 5px;
 
-  color:
-    #f0c85c;
+  color: #f0c85c;
 }
 
 .shop-price img {
-  width:
-    22px;
+  width: 22px;
+  height: 22px;
 
-  height:
-    22px;
+  object-fit: contain;
 
-  object-fit:
-    contain;
-
-  image-rendering:
-    pixelated;
+  image-rendering: pixelated;
 }
 
 .buy-button {
@@ -1063,56 +887,33 @@ button {
     7px
     10px;
 
-  background:
-    #30552c;
+  background: #30552c;
 
-  color:
-    #e8efce;
+  color: #e8efce;
 }
 
 .buy-button:hover:not(:disabled) {
-  background:
-    #416f3b;
+  background: #416f3b;
 }
 
 .buy-button:disabled {
-  opacity:
-    0.35;
+  opacity: 0.35;
 
-  cursor:
-    not-allowed;
+  cursor: not-allowed;
 }
-
-/* =========================
-   EMPTY MESSAGE
-========================= */
 
 .empty-message {
-  color:
-    #8e8274;
+  color: #8e8274;
 }
 
+
 /* =========================
-   COMBAT ANIMATIONS
+   HERO ATTACK ANIMATION
 ========================= */
 
 .hero-attacking {
   animation:
     heroAttack
-    0.35s
-    ease-out;
-}
-
-.enemy-attacking {
-  animation:
-    enemyAttack
-    0.35s
-    ease-out;
-}
-
-.taking-damage {
-  animation:
-    takingDamage
     0.35s
     ease-out;
 }
@@ -1135,6 +936,18 @@ button {
   }
 }
 
+
+/* =========================
+   ENEMY ATTACK ANIMATION
+========================= */
+
+.enemy-attacking {
+  animation:
+    enemyAttack
+    0.35s
+    ease-out;
+}
+
 @keyframes enemyAttack {
   0% {
     transform:
@@ -1151,6 +964,18 @@ button {
     transform:
       translateX(0);
   }
+}
+
+
+/* =========================
+   DAMAGE ANIMATION
+========================= */
+
+.taking-damage {
+  animation:
+    takingDamage
+    0.35s
+    ease-out;
 }
 
 @keyframes takingDamage {
@@ -1214,53 +1039,393 @@ button {
   }
 }
 
+
 /* =========================
-   RESPONSIVE
+   FIRE MAGIC
 ========================= */
 
-@media (
-  max-width: 950px
-) {
+.fire-magic {
+  position: absolute;
+
+  z-index: 12;
+
+  width: 120px;
+  height: 120px;
+
+  left: 30%;
+  top: 30%;
+
+  object-fit: contain;
+
+  image-rendering: pixelated;
+
+  opacity: 0;
+
+  pointer-events: none;
+}
+
+.fire-magic-casting {
+  animation:
+    fireMagicAttack
+    0.55s
+    ease-in-out;
+}
+
+@keyframes fireMagicAttack {
+  0% {
+    opacity: 0;
+
+    transform:
+      translateX(0)
+      scale(0.5)
+      rotate(-10deg);
+  }
+
+  20% {
+    opacity: 1;
+
+    transform:
+      translateX(-20px)
+      scale(0.8);
+  }
+
+  75% {
+    opacity: 1;
+
+    transform:
+      translateX(-420px)
+      scale(1.15)
+      rotate(10deg);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translateX(-500px)
+      scale(0.8);
+  }
+}
+
+
+/* =========================
+   LEVEL UP
+========================= */
+
+.level-up {
+  position: absolute;
+
+  z-index: 20;
+
+  width: 180px;
+
+  left: 50%;
+  top: 20px;
+
+  opacity: 0;
+
+  pointer-events: none;
+
+  transform:
+    translateX(-50%)
+    translateY(20px)
+    scale(0.5);
+}
+
+.level-up.show {
+  animation:
+    levelUpAnimation
+    1.4s
+    ease-out;
+}
+
+@keyframes levelUpAnimation {
+  0% {
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(30px)
+      scale(0.5);
+  }
+
+  25% {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(-10px)
+      scale(1.2);
+  }
+
+  70% {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(-25px)
+      scale(1);
+  }
+
+  100% {
+    opacity: 0;
+
+    transform:
+      translateX(-50%)
+      translateY(-50px)
+      scale(1);
+  }
+}
+
+
+/* =========================
+   END SCREEN
+========================= */
+
+.end-screen {
+  position: fixed !important;
+
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  z-index: 99999;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin: 0;
+  padding: 20px;
+
+  background:
+    rgba(
+      0,
+      0,
+      0,
+      0
+    );
+
+  backdrop-filter:
+    blur(0);
+
+  -webkit-backdrop-filter:
+    blur(0);
+
+  animation:
+    endScreenFadeIn
+    1.5s
+    ease-out
+    forwards;
+}
+
+.end-screen-content {
+  position: relative;
+
+  z-index: 100000;
+
+  width: 100%;
+
+  text-align: center;
+
+  opacity: 0;
+
+  transform:
+    translateY(30px)
+    scale(0.9);
+
+  animation:
+    endTextAppear
+    1.2s
+    ease-out
+    0.7s
+    forwards;
+}
+
+.end-screen-content h2 {
+  margin: 0;
+
+  color: #e5c178;
+
+  font-size:
+    clamp(
+      42px,
+      7vw,
+      90px
+    );
+
+  letter-spacing: 3px;
+
+  text-shadow:
+    0 4px 0
+    #000,
+
+    0 0 20px
+    rgba(
+      229,
+      193,
+      120,
+      0.4
+    ),
+
+    0 0 40px
+    rgba(
+      229,
+      193,
+      120,
+      0.2
+    );
+}
+
+.end-created {
+  margin:
+    28px
+    0
+    8px;
+
+  color: #9f9588;
+
+  font-size: 16px;
+
+  font-weight: 600;
+
+  letter-spacing: 4px;
+
+  text-transform: uppercase;
+}
+
+.end-author {
+  margin: 0;
+
+  color: #f1d28c;
+
+  font-size:
+    clamp(
+      24px,
+      3vw,
+      38px
+    );
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+
+  text-shadow:
+    0 2px 0
+    #000,
+
+    0 0 15px
+    rgba(
+      229,
+      193,
+      120,
+      0.25
+    );
+}
+
+
+/* =========================
+   END SCREEN ANIMATIONS
+========================= */
+
+@keyframes endScreenFadeIn {
+  0% {
+    background:
+      rgba(
+        0,
+        0,
+        0,
+        0
+      );
+
+    backdrop-filter:
+      blur(0);
+
+    -webkit-backdrop-filter:
+      blur(0);
+  }
+
+  100% {
+    background:
+      rgba(
+        0,
+        0,
+        0,
+        0.88
+      );
+
+    backdrop-filter:
+      blur(7px);
+
+    -webkit-backdrop-filter:
+      blur(7px);
+  }
+}
+
+@keyframes endTextAppear {
+  0% {
+    opacity: 0;
+
+    transform:
+      translateY(30px)
+      scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+
+/* =========================
+   RESPONSIVE - TABLET
+========================= */
+
+@media (max-width: 950px) {
   .battle-layout {
     grid-template-columns:
       1fr;
   }
 
   .center-column {
-    order:
-      3;
+    order: 3;
   }
 
   .sprite-container {
-    height:
-      230px;
+    height: 230px;
   }
 
   .character-sprite {
-    width:
-      220px;
-
-    height:
-      220px;
+    width: 220px;
+    height: 220px;
   }
 
   .combat-log-card {
-    min-height:
-      auto;
+    min-height: auto;
   }
 
   .lower-layout {
-    width:
-      100%;
+    width: 100%;
   }
 }
 
-@media (
-  max-width: 700px
-) {
+
+/* =========================
+   RESPONSIVE - SHOP
+========================= */
+
+@media (max-width: 700px) {
   .shop-panel {
-    min-height:
-      512px;
+    min-height: 512px;
 
     padding:
       120px
@@ -1292,45 +1457,43 @@ button {
       auto;
   }
 
-  .shop-price {
-    justify-self:
-      end;
-  }
-
   .buy-button {
     grid-column:
       1
       /
       -1;
   }
+
+  .fire-magic {
+    width: 90px;
+    height: 90px;
+  }
 }
 
-@media (
-  max-width: 500px
-) {
-  .game {
-    width:
-      94%;
 
-    padding-top:
-      15px;
+/* =========================
+   RESPONSIVE - MOBILE
+========================= */
+
+@media (max-width: 500px) {
+  .game {
+    width: 94%;
+
+    padding-top: 15px;
   }
 
   .character-card,
   .enemy-card,
   .combat-log-card {
-    border-radius:
-      10px;
+    border-radius: 10px;
   }
 
   .panel-buttons {
-    flex-direction:
-      column;
+    flex-direction: column;
   }
 
   .level-up {
-    width:
-      140px;
+    width: 140px;
   }
 
   .inventory-panel,
@@ -1339,5 +1502,15 @@ button {
       85px
       25px
       35px;
+  }
+
+  .end-screen-content h2 {
+    font-size: 42px;
+
+    line-height: 1.1;
+  }
+
+  .end-author {
+    font-size: 25px;
   }
 }
