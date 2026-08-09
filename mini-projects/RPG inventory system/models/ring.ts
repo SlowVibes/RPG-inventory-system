@@ -14,7 +14,7 @@ export class Ring extends Item {
     super(id, name, weight, value, ItemType.Ring);
   }
 
-  use(character: Character): boolean {
+  use(_character: Character): boolean {
       return true;
     };
 }

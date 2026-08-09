@@ -14,7 +14,7 @@ export class Armor extends Item {
     super(id, name, weight, value, ItemType.Armor);
   }
 
-  use(character: Character): boolean {
+  use(_character: Character): boolean {
       return true;
   };
 }

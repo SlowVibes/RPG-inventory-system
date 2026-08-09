@@ -14,7 +14,7 @@ export class Weapon extends Item {
     super(id, name, weight, value, ItemType.Weapon);
   }
 
-  use(character: Character): boolean {
+  use(_character: Character): boolean {
     return true;
   }
 

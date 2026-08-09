@@ -90,17 +90,8 @@ let enemy = enemies[enemyIndex];
 
 const axe = new Weapon(1, "Axe", 5, 500, 15, 100);
 
-const supremeAxe = new Weapon(2, "Supreme Axe", 5, 1000, 30, 250);
-
 const healthPotion = new Potion(3, "Health Potion", 0.25, 25, 30, 0);
 
-const armor = new Armor(4, "Iron Armor", 10, 300, 10, 100);
-
-const ring = new Ring(5, "Strength Ring", 0.1, 250, 5, 10);
-
-const manaPotion = new Potion(6, "Mana Potion", 0.25, 25, 0, 25);
-
-const superPotion = new Potion(7, "Super Potion", 0.4, 50, 25, 25);
 
 hero.pickUpItem(healthPotion);
 hero.pickUpItem(axe);
