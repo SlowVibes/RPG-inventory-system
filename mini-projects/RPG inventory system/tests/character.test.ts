@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { Character } from "../models/character";
+import { Weapon } from "../models/weapon";
+import { Potion } from "../models/potion";
 
 describe("Character", () => {
   it("heals the character without exceeding max health", () => {
@@ -64,6 +66,42 @@ describe("Character", () => {
     expect(result).toBe(false);
     expect(negativeResult).toBe(false);
     expect(hero.experience).toBe(initialExperience);
-    expect(hero.level).toBe(initialLevel);  
+    expect(hero.level).toBe(initialLevel);
+  });
+
+  it("returns the previous weapon to inventory when equipping a new weapon", () => {
+    const hero = new Character("Test Conan");
+
+    const sword = new Weapon(1, "Sword", 5, 100, 20, 100);
+    const polearm = new Weapon(2, "Polearm", 15, 125, 35, 120);
+
+    hero.pickUpItem(sword);
+    hero.pickUpItem(polearm);
+
+    hero.equipItem(sword.id);
+    const result = hero.equipItem(polearm.id);
+
+    expect(result).toBe(true);
+    expect(hero.equipment.weapon).toBe(polearm);
+    expect(hero.inventory.getItemById(2)).toBeUndefined();
+    expect(hero.inventory.getItemById(1)).toBe(sword);
+  });
+
+  it("trying to equip a potion, testing all equipment slots to remain undefined", () => {
+    const hero = new Character("Test Conan");
+
+    const potion = new Potion(1, "Health Potion", 5, 10, 5, 0);
+
+    hero.pickUpItem(potion);
+
+    const result = hero.equipItem(potion.id);
+
+    expect(result).toBe(false);
+
+    expect(hero.equipment.weapon).toBeNull();
+    expect(hero.equipment.armor).toBeNull();
+    expect(hero.equipment.ring).toBeNull();
+
+    expect(hero.inventory.getItemById(1)).toBe(potion);
   });
 });
