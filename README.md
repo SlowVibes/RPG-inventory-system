@@ -5,6 +5,7 @@ A small browser-based fantasy RPG built with **TypeScript**.
 The project originally started as an object-oriented programming exercise focused on inventory management, but gradually evolved into a fully playable RPG prototype with combat, enemies, equipment, potions, leveling, a shop, animations and a graphical user interface.
 
 ## 🎮 Play Online
+<a href="https://ibb.co/zHnJmqmR"><img src="https://i.ibb.co/JFBQcDc7/f0b083ec-a7ba-435d-9fa6-8fd1796ef555.png" alt="f0b083ec-a7ba-435d-9fa6-8fd1796ef555" border="0"></a>
 
 <a href="https://ibb.co/cSm5B8s4"><img src="https://i.ibb.co/1tSVgX4F/K-perny-k-p-2026-08-09-155629.png" alt="K-perny-k-p-2026-08-09-155629" border="0"></a>
 <a href="https://ibb.co/GvGBTkNr"><img src="https://i.ibb.co/XZ6N8pMG/K-perny-k-p-2026-08-09-160239.png" alt="K-perny-k-p-2026-08-09-160239" border="0"></a>
