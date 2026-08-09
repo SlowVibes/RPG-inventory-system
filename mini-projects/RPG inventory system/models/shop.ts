@@ -15,19 +15,15 @@ export class Shop {
       return false;
     }
 
-    const addedToInventory = character.pickUpItem(item);
-
-    if (!addedToInventory) {
+    if (!character.inventory.canAddItem(item)) {
       return false;
     }
 
-    const paid = character.spendGold(item.value);
-
-    if (!paid) {
-      character.removeItem(item.id);
+    if (character.gold < item.value) {
       return false;
     }
-
+    character.spendGold(item.value);
+    character.pickUpItem(item);
     this.removeItem(item.id);
     return true;
   }

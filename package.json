@@ -3,19 +3,18 @@
   "version": "1.0.0",
   "description": "Practicing typescript in a fun and barbaric way!",
   "main": "index.js",
-  "type":"module",
+  "type": "commonjs",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SlowVibes/RPG-inventory-system.git"
   },
   "keywords": [],
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/SlowVibes/RPG-inventory-system/issues"
   },
@@ -24,5 +23,8 @@
     "@types/node": "^26.1.2",
     "tsx": "^4.23.7",
     "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.10"
   }
 }

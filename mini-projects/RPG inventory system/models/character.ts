@@ -12,12 +12,12 @@ export class Character {
     public experience = 10,
     public experienceToNextLevel = 15,
     public maxHealth = 100,
-    public currentHealth = 10,
+    public currentHealth = 100,
     public maxMana = 50,
     public currentMana = 50,
     public gold = 1000,
     public baseAttack = 10,
-    public baseDefense = 5,
+    public baseDefense = 0,
     public baseStrength = 10,
   ) {
     this.inventory = new Inventory();

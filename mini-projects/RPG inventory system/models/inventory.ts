@@ -11,6 +11,10 @@ export class Inventory {
       return false;
     }
 
+    if (!this.canAddItem(item)) {
+      return false;
+    }
+
     this.items.push(item);
 
     return true;
@@ -37,5 +41,9 @@ export class Inventory {
       (totalWeight, currentItem) => totalWeight + currentItem.weight,
       0,
     );
+  }
+
+  canAddItem(item: Item): boolean {
+    return this.getCurrentWeight() + item.weight <= this.weightLimit;
   }
 }
