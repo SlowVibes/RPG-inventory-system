@@ -1,0 +1,638 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  color: #f4f0e6;
+  background: #111;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at top,
+      #392719 0%,
+      #1f1712 35%,
+      #0d0d0d 100%
+    );
+}
+
+button {
+  font: inherit;
+}
+
+/* =========================
+   GAME
+========================= */
+
+.game {
+  width: min(1450px, 95%);
+  margin: 0 auto;
+  padding: 24px 0 50px;
+}
+
+.main-game-title {
+  text-align: center;
+
+  margin:
+    0
+    0
+    28px;
+
+  font-size: clamp(
+    28px,
+    4vw,
+    46px
+  );
+
+  letter-spacing: 2px;
+
+  color: #e5c178;
+
+  text-shadow:
+    0 2px 0 #000,
+    0 0 15px rgba(190, 87, 35, 0.4);
+}
+
+/* =========================
+   BATTLE LAYOUT
+========================= */
+
+.battle-layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(260px, 1fr)
+    minmax(320px, 1.15fr)
+    minmax(260px, 1fr);
+
+  gap: 24px;
+
+  align-items: start;
+}
+
+.character-card,
+.enemy-card,
+.combat-log-card,
+.hero-panel {
+  border:
+    1px solid #5a4631;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #27221d,
+      #171513
+    );
+
+  box-shadow:
+    0 10px 30px
+      rgba(0, 0, 0, 0.45),
+    inset 0 0 20px
+      rgba(255, 168, 68, 0.03);
+}
+
+.character-card,
+.enemy-card {
+  padding: 20px;
+}
+
+.character-name {
+  margin:
+    0
+    0
+    12px;
+
+  text-align: center;
+
+  font-size: 26px;
+
+  color: #e8c681;
+}
+
+/* =========================
+   SPRITES
+========================= */
+
+.sprite-container {
+  width: 100%;
+  height: 270px;
+
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: center;
+
+  overflow: visible;
+
+  margin-bottom: 16px;
+}
+
+.character-sprite {
+  width: 256px;
+  height: 256px;
+
+  object-fit: contain;
+
+  image-rendering: pixelated;
+
+  filter:
+    drop-shadow(
+      0
+      12px
+      8px
+      rgba(0, 0, 0, 0.55)
+    );
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.stat-row,
+.stat-label {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 16px;
+}
+
+.stat-row {
+  padding:
+    5px
+    0;
+}
+
+.stat-row span,
+.stat-label span:first-child {
+  color: #c7b9a1;
+}
+
+.stat-row strong {
+  color: #f1d28c;
+}
+
+.bar {
+  width: 100%;
+  height: 14px;
+
+  border:
+    1px solid #111;
+
+  border-radius: 7px;
+
+  overflow: hidden;
+
+  background: #36302b;
+
+  box-shadow:
+    inset
+    0
+    2px
+    4px
+    rgba(0, 0, 0, 0.7);
+}
+
+.health-fill,
+.enemy-health-fill,
+.mana-fill,
+.xp-fill {
+  height: 100%;
+
+  transition:
+    width 0.3s ease;
+}
+
+.health-fill,
+.enemy-health-fill {
+  background:
+    linear-gradient(
+      90deg,
+      #7f1111,
+      #e32626
+    );
+}
+
+.mana-fill {
+  background:
+    linear-gradient(
+      90deg,
+      #193d86,
+      #3478e5
+    );
+}
+
+.xp-fill {
+  background:
+    linear-gradient(
+      90deg,
+      #8b6710,
+      #e3b531
+    );
+}
+
+/* =========================
+   CENTER / COMBAT LOG
+========================= */
+
+.center-column {
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+}
+
+.combat-log-card {
+  min-height: 420px;
+  padding: 20px;
+}
+
+.combat-log-card h2 {
+  margin:
+    0
+    0
+    14px;
+
+  text-align: center;
+
+  color: #e5c178;
+}
+
+.combat-log {
+  max-height: 350px;
+
+  overflow-y: auto;
+}
+
+.combat-log p {
+  margin: 0;
+
+  padding:
+    10px
+    4px;
+
+  border-bottom:
+    1px solid #35302a;
+
+  font-size: 14px;
+
+  line-height: 1.35;
+}
+
+/* =========================
+   ATTACK BUTTON
+========================= */
+
+.attack-button {
+  width: 100%;
+
+  padding:
+    17px
+    24px;
+
+  border:
+    1px solid #be4c39;
+
+  border-radius: 10px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #9a221b,
+      #64130f
+    );
+
+  color: #fff1d1;
+
+  font-size: 20px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  box-shadow:
+    0
+    6px
+    0
+    #350907,
+    0
+    12px
+    24px
+    rgba(0, 0, 0, 0.35);
+
+  transition:
+    transform 0.12s ease,
+    filter 0.12s ease;
+}
+
+.attack-button:hover:not(:disabled) {
+  filter: brightness(1.15);
+  transform: translateY(-2px);
+}
+
+.attack-button:active:not(:disabled) {
+  transform: translateY(3px);
+
+  box-shadow:
+    0
+    3px
+    0
+    #350907;
+}
+
+.attack-button:disabled {
+  opacity: 0.4;
+
+  cursor: not-allowed;
+}
+
+/* =========================
+   LOWER PANEL
+========================= */
+
+.lower-layout {
+  display: grid;
+
+  grid-template-columns:
+    minmax(320px, 650px);
+
+  margin-top: 24px;
+}
+
+.panel-buttons {
+  display: flex;
+
+  gap: 10px;
+
+  margin-bottom: 10px;
+}
+
+.panel-buttons button,
+.item-button {
+  padding:
+    10px
+    16px;
+
+  border:
+    1px solid #5c4b37;
+
+  border-radius: 8px;
+
+  background: #29231e;
+
+  color: #e7dac7;
+
+  cursor: pointer;
+
+  font-weight: 700;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.panel-buttons button:hover,
+.item-button:hover {
+  background: #3a3027;
+
+  transform: translateY(-1px);
+}
+
+.panel-buttons button.active {
+  border-color: #a6793e;
+
+  background: #6e281d;
+
+  color: #ffde9b;
+}
+
+.hero-panel {
+  min-height: 200px;
+
+  padding: 18px;
+}
+
+.hero-panel h2 {
+  margin:
+    0
+    0
+    12px;
+
+  color: #e5c178;
+}
+
+.inventory-item,
+.equipment-item {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 20px;
+
+  padding:
+    10px
+    0;
+
+  border-bottom:
+    1px solid #3b342d;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.item-details span {
+  color: #998d7f;
+
+  font-size: 13px;
+}
+
+.equipment-item span {
+  color: #b9aa96;
+}
+
+.equipment-item strong {
+  color: #edcd87;
+}
+
+.empty-message {
+  color: #8e8274;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+.hero-attacking {
+  animation:
+    heroAttack
+    0.35s
+    ease-out;
+}
+
+.enemy-attacking {
+  animation:
+    enemyAttack
+    0.35s
+    ease-out;
+}
+
+.taking-damage {
+  animation:
+    takingDamage
+    0.35s
+    ease-out;
+}
+
+@keyframes heroAttack {
+  0% {
+    transform: translateX(0);
+  }
+
+  45% {
+    transform:
+      translateX(75px)
+      scale(1.05);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes enemyAttack {
+  0% {
+    transform: translateX(0);
+  }
+
+  45% {
+    transform:
+      translateX(-75px)
+      scale(1.05);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes takingDamage {
+  0% {
+    transform: translateX(0);
+
+    filter:
+      brightness(1)
+      drop-shadow(
+        0
+        12px
+        8px
+        rgba(0, 0, 0, 0.55)
+      );
+  }
+
+  25% {
+    transform: translateX(-8px);
+
+    filter:
+      brightness(2)
+      saturate(0)
+      sepia(1)
+      hue-rotate(-50deg);
+  }
+
+  50% {
+    transform: translateX(8px);
+  }
+
+  75% {
+    transform: translateX(-5px);
+  }
+
+  100% {
+    transform: translateX(0);
+
+    filter:
+      brightness(1)
+      drop-shadow(
+        0
+        12px
+        8px
+        rgba(0, 0, 0, 0.55)
+      );
+  }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 950px) {
+  .battle-layout {
+    grid-template-columns:
+      1fr;
+  }
+
+  .center-column {
+    order: 3;
+  }
+
+  .sprite-container {
+    height: 230px;
+  }
+
+  .character-sprite {
+    width: 220px;
+    height: 220px;
+  }
+
+  .combat-log-card {
+    min-height: auto;
+  }
+
+  .lower-layout {
+    grid-template-columns:
+      1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .game {
+    width: 94%;
+
+    padding-top: 15px;
+  }
+
+  .character-card,
+  .enemy-card,
+  .combat-log-card,
+  .hero-panel {
+    border-radius: 10px;
+  }
+
+  .panel-buttons {
+    flex-direction: column;
+  }
+}

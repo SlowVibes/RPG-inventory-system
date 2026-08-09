@@ -8,6 +8,7 @@ export class Character {
   public equipment: Equipment;
   constructor(
     public name: string,
+    public characterClass = "Barbarian",
     public level = 1,
     public experience = 10,
     public experienceToNextLevel = 15,
@@ -34,8 +35,11 @@ export class Character {
     if (actualDamage === 0) {
       return false;
     }
+    const previousHealth = this.currentHealth;
+
     this.currentHealth = Math.max(this.currentHealth - actualDamage, 0);
-    return true;
+
+    return this.currentHealth !== previousHealth;
   }
 
   healCharacter(healValue: number): boolean {
