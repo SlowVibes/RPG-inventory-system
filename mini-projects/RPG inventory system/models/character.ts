@@ -16,9 +16,9 @@ export class Character {
     public maxMana = 50,
     public currentMana = 50,
     public gold = 1000,
-    public baseAttack = 10,
+    public baseAttack = 5,
     public baseDefense = 0,
-    public baseStrength = 10,
+    public baseStrength = 5,
   ) {
     this.inventory = new Inventory();
     this.equipment = new Equipment();
@@ -204,7 +204,5 @@ export class Character {
     this.baseAttack += 2;
     this.baseDefense += 1;
     this.baseStrength += 1;
-
-    console.log(`${this.name} leveled up to level ${this.level}!`);
   }
 }
