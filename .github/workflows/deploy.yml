@@ -1,4 +1,4 @@
-name: Deploy Conan's Codeventures
+name: Deploy Conan Codeventures
 
 on:
   push:
@@ -21,30 +21,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v6
 
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: "24"
           package-manager-cache: false
 
       - name: Install dependencies
-        working-directory: ./gui
+        working-directory: gui
         run: npm ci
 
-      - name: Build project
-        working-directory: ./gui
+      - name: Build
+        working-directory: gui
         run: npm run build
 
-      - name: Setup GitHub Pages
+      - name: Setup Pages
         uses: actions/configure-pages@v5
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: ./gui/dist
+          path: gui/dist
 
   deploy:
     environment:
@@ -52,10 +52,9 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
 
     runs-on: ubuntu-latest
-
     needs: build
 
     steps:
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
