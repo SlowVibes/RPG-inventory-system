@@ -1052,8 +1052,8 @@ button {
   width: 120px;
   height: 120px;
 
-  left: 30%;
-  top: 30%;
+  left: 20%;
+  top: 20%;
 
   object-fit: contain;
 
@@ -1085,7 +1085,7 @@ button {
     opacity: 1;
 
     transform:
-      translateX(-20px)
+      translateX(-50px)
       scale(0.8);
   }
 
@@ -1093,7 +1093,7 @@ button {
     opacity: 1;
 
     transform:
-      translateX(-420px)
+      translateX(-850px)
       scale(1.15)
       rotate(10deg);
   }
@@ -1102,7 +1102,7 @@ button {
     opacity: 0;
 
     transform:
-      translateX(-500px)
+      translateX(-900px)
       scale(0.8);
   }
 }
