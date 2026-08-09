@@ -4,6 +4,10 @@ A small browser-based fantasy RPG built with TypeScript.
 
 <a href="https://ibb.co/cSm5B8s4"><img src="https://i.ibb.co/1tSVgX4F/K-perny-k-p-2026-08-09-155629.png" alt="K-perny-k-p-2026-08-09-155629" border="0"></a>
 
+<a href="https://ibb.co/GvGBTkNr"><img src="https://i.ibb.co/XZ6N8pMG/K-perny-k-p-2026-08-09-160239.png" alt="K-perny-k-p-2026-08-09-160239" border="0"></a>
+
+<a href="https://ibb.co/XrvzGM4Q"><img src="https://i.ibb.co/67f4qLZM/K-perny-k-p-2026-08-09-160308.png" alt="K-perny-k-p-2026-08-09-160308" border="0"></a>
+
 
 The project started as an object-oriented programming exercise focused on inventory management, but gradually evolved into a playable RPG prototype featuring combat, equipment, potions, leveling, enemies, a shop, animations, and a graphical user interface.
 
@@ -169,3 +173,102 @@ tests/
 ├── shop.test.ts
 ├── potion.test.ts
 └── ...
+
+🛠️ Technologies
+TypeScript
+HTML
+CSS
+Vite
+Vitest
+Object-Oriented Programming
+DOM manipulation
+CSS animations
+
+No frontend framework is used.
+
+The interface is rendered directly from TypeScript using the DOM, while the game mechanics remain separated in model classes.
+
+🧪 Testing
+
+The core game systems are covered by automated tests using Vitest.
+
+Tested behavior includes areas such as:
+
+Inventory item handling
+Inventory weight limits
+Damage and defense calculations
+Character leveling
+Equipment replacement
+Potion usage
+Weapon durability
+Enemy combat
+Experience and gold rewards
+Shop purchases
+Shop selling
+
+Run the tests with:
+
+npm test
+🚀 Running the Project
+
+Clone the repository:
+
+git clone <repository-url>
+
+Install dependencies:
+
+npm install
+
+Start the development server:
+
+npm run dev
+
+Then open the local URL provided by Vite in your browser.
+
+💡 What I Practiced
+
+This project was primarily built to practice and strengthen my TypeScript and software development fundamentals.
+
+Some of the main concepts used:
+
+Classes and inheritance
+Encapsulation
+Separation of responsibilities
+Composition
+TypeScript types
+Enums
+Arrays and higher-order functions
+State management
+Boolean return patterns
+DOM manipulation
+Event listeners
+Dynamic rendering
+Asynchronous UI sequences
+CSS animations
+Unit testing
+Refactoring
+Git workflow
+
+One of the main goals was to keep the game logic independent from the graphical interface, allowing the UI to interact with the existing model layer rather than implementing game rules directly in the frontend.
+
+🎨 Artwork
+
+The game uses custom fantasy-style graphical assets for characters, enemies, items, panels, and interface elements.
+
+The graphical assets were created with generative AI and then prepared and edited for use within the project.
+
+📌 Project Status
+
+The main gameplay loop is complete.
+
+Current playable progression:
+
+Goblin
+   ↓
+Magician
+   ↓
+Ogre Boss
+   ↓
+Thanks for playing!
+
+A final refactoring and testing pass may still be performed before considering the project fully finished.
