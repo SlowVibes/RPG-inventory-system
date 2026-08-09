@@ -3,7 +3,7 @@ import type { Character } from "./character";
 export class Enemy {
   constructor(
     public name: string,
-    public health: number,
+    public maxHealth: number,
     public currentHealth: number,
     public attackValue: number,
     public defense: number,

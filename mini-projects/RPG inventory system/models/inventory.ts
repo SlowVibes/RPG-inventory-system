@@ -7,10 +7,6 @@ export class Inventory {
   ) {}
 
   addItem(item: Item): boolean {
-    if (this.getCurrentWeight() + item.weight > this.weightLimit) {
-      return false;
-    }
-
     if (!this.canAddItem(item)) {
       return false;
     }

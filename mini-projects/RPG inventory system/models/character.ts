@@ -34,7 +34,6 @@ export class Character {
     if (actualDamage === 0) {
       return false;
     }
-
     this.currentHealth = Math.max(this.currentHealth - actualDamage, 0);
     return true;
   }
