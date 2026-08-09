@@ -6,7 +6,52 @@ import { Weapon } from "../../models/weapon";
 import { Armor } from "../../models/armor";
 import { Ring } from "../../models/ring";
 import { Potion } from "../../models/potion";
+import { Shop } from "../../models/shop";
 import { ItemType } from "../../models/itemtype";
+
+import type { Item } from "../../models/item";
+
+/* =========================
+   CHARACTER / ENEMY ASSETS
+========================= */
+
+import conanSprite from "./assets/conan.png";
+import conanAttackSprite from "./assets/conanattack.png";
+
+import goblinSprite from "./assets/goblin.png";
+import goblinAttackSprite from "./assets/goblinattack.png";
+import goblinDeadSprite from "./assets/goblindead.png";
+
+/* =========================
+   PANEL ASSETS
+========================= */
+
+import inventoryBackground from "./assets/inventory.png";
+import equipmentBackground from "./assets/equipment.png";
+import shopBackground from "./assets/shop.png";
+
+/* =========================
+   ICONS
+========================= */
+
+import goldIcon from "./assets/icons/gold.png";
+import xpIcon from "./assets/icons/xp.png";
+
+import basicAxeIcon from "./assets/icons/basicaxe.png";
+import battleAxeIcon from "./assets/icons/battleaxe.png";
+
+import armorIcon from "./assets/icons/leatherarmor.png";
+import strengthIcon from "./assets/icons/strengthring.png";
+
+import healthPotionIcon from "./assets/icons/healthpotion.png";
+import manaPotionIcon from "./assets/icons/manapotion.png";
+import superPotionIcon from "./assets/icons/superpotion.png";
+
+import levelUpIcon from "./assets/icons/levelup.png";
+
+/* =========================
+   GAME OBJECTS
+========================= */
 
 const hero = new Character("Conan");
 
@@ -19,6 +64,10 @@ const enemy = new Enemy(
   20,
   20,
 );
+
+/* =========================
+   STARTING ITEMS
+========================= */
 
 const axe = new Weapon(
   1,
@@ -38,7 +87,7 @@ const supremeAxe = new Weapon(
   250,
 );
 
-const potion = new Potion(
+const healthPotion = new Potion(
   3,
   "Health Potion",
   0.25,
@@ -65,7 +114,28 @@ const ring = new Ring(
   10,
 );
 
-hero.pickUpItem(potion);
+const manaPotion = new Potion(
+  6,
+  "Mana Potion",
+  0.25,
+  25,
+  0,
+  25,
+);
+
+const superPotion = new Potion(
+  7,
+  "Super Potion",
+  0.4,
+  50,
+  25,
+  25,
+);
+
+hero.pickUpItem(healthPotion);
+hero.pickUpItem(manaPotion);
+hero.pickUpItem(superPotion);
+
 hero.pickUpItem(axe);
 hero.pickUpItem(supremeAxe);
 hero.pickUpItem(armor);
@@ -73,10 +143,100 @@ hero.pickUpItem(ring);
 
 hero.equipItem(axe.id);
 
+/* =========================
+   SHOP ITEMS
+========================= */
+
+const shopAxe = new Weapon(
+  101,
+  "Axe",
+  5,
+  500,
+  15,
+  100,
+);
+
+const shopSupremeAxe = new Weapon(
+  102,
+  "Supreme Axe",
+  5,
+  1000,
+  30,
+  250,
+);
+
+const shopHealthPotion = new Potion(
+  103,
+  "Health Potion",
+  0.25,
+  25,
+  30,
+  0,
+);
+
+const shopManaPotion = new Potion(
+  104,
+  "Mana Potion",
+  0.25,
+  25,
+  0,
+  25,
+);
+
+const shopSuperPotion = new Potion(
+  105,
+  "Super Potion",
+  0.4,
+  50,
+  25,
+  25,
+);
+
+const shopArmor = new Armor(
+  106,
+  "Iron Armor",
+  10,
+  300,
+  10,
+  100,
+);
+
+const shopRing = new Ring(
+  107,
+  "Strength Ring",
+  0.1,
+  250,
+  5,
+  10,
+);
+
+const shop = new Shop([
+  shopAxe,
+  shopSupremeAxe,
+  shopHealthPotion,
+  shopManaPotion,
+  shopSuperPotion,
+  shopArmor,
+  shopRing,
+]);
+
+/* =========================
+   UI STATE
+========================= */
+
 const combatLog: string[] = [];
 
-let activePanel: "inventory" | "equipment" = "inventory";
+let activePanel:
+  | "inventory"
+  | "equipment"
+  | "shop"
+  = "inventory";
+
 let gameOverLogged = false;
+
+/* =========================
+   RENDER
+========================= */
 
 function render(): void {
   const heroHealthPercentage =
@@ -86,85 +246,325 @@ function render(): void {
     (hero.currentMana / hero.maxMana) * 100;
 
   const heroXpPercentage =
-    (hero.experience / hero.experienceToNextLevel) * 100;
+    (hero.experience /
+      hero.experienceToNextLevel) *
+    100;
 
   const enemyHealthPercentage =
-    (enemy.currentHealth / enemy.maxHealth) * 100;
+    (enemy.currentHealth /
+      enemy.maxHealth) *
+    100;
+
+  /* =========================
+     COMBAT LOG HTML
+  ========================= */
 
   const combatLogHtml = combatLog
     .slice(0, 8)
-    .map((message) => `<p>${message}</p>`)
+    .map(
+      (message) =>
+        `<p>${message}</p>`,
+    )
     .join("");
 
-  const inventoryHtml = hero.inventory.items
+  /* =========================
+     INVENTORY HTML
+  ========================= */
+
+  const inventoryHtml =
+    hero.inventory.items
+      .map((item) => {
+        const buttonText =
+          item.type ===
+          ItemType.Potion
+            ? "Use"
+            : "Equip";
+
+        const icon =
+          getItemIcon(item);
+
+        return `
+          <div class="inventory-item">
+
+            <img
+              class="item-icon"
+              src="${icon}"
+              alt="${item.name}"
+            />
+
+            <div class="item-details">
+              <strong>${item.name}</strong>
+
+              <span>
+                ${item.weight} kg
+              </span>
+
+              <span>
+                Value: ${item.value}
+              </span>
+            </div>
+
+            <button
+              class="item-button"
+              data-item-id="${item.id}"
+            >
+              ${buttonText}
+            </button>
+
+          </div>
+        `;
+      })
+      .join("");
+
+  /* =========================
+     EQUIPMENT HTML
+  ========================= */
+
+  const equipmentHtml = `
+    <div class="equipment-item">
+
+      ${
+        hero.equipment.weapon
+          ? `
+            <img
+              class="item-icon"
+              src="${getItemIcon(
+                hero.equipment.weapon,
+              )}"
+              alt="Weapon"
+            />
+          `
+          : ""
+      }
+
+      <span>Weapon</span>
+
+      <strong>
+        ${
+          hero.equipment.weapon
+            ?.name ?? "Empty"
+        }
+      </strong>
+
+    </div>
+
+    <div class="equipment-item">
+
+      ${
+        hero.equipment.armor
+          ? `
+            <img
+              class="item-icon"
+              src="${getItemIcon(
+                hero.equipment.armor,
+              )}"
+              alt="Armor"
+            />
+          `
+          : ""
+      }
+
+      <span>Armor</span>
+
+      <strong>
+        ${
+          hero.equipment.armor
+            ?.name ?? "Empty"
+        }
+      </strong>
+
+    </div>
+
+    <div class="equipment-item">
+
+      ${
+        hero.equipment.ring
+          ? `
+            <img
+              class="item-icon"
+              src="${getItemIcon(
+                hero.equipment.ring,
+              )}"
+              alt="Ring"
+            />
+          `
+          : ""
+      }
+
+      <span>Ring</span>
+
+      <strong>
+        ${
+          hero.equipment.ring
+            ?.name ?? "Empty"
+        }
+      </strong>
+
+    </div>
+  `;
+
+  /* =========================
+     SHOP HTML
+  ========================= */
+
+  const shopHtml = shop.items
     .map((item) => {
-      const buttonText =
-        item.type === ItemType.Potion
-          ? "Use"
-          : "Equip";
+      const icon =
+        getItemIcon(item);
 
       return `
-        <div class="inventory-item">
-          <div class="item-details">
-            <strong>${item.name}</strong>
-            <span>${item.weight} kg</span>
+        <div class="shop-item">
+
+          <img
+            class="shop-item-icon"
+            src="${icon}"
+            alt="${item.name}"
+          />
+
+          <div class="shop-item-details">
+
+            <strong>
+              ${item.name}
+            </strong>
+
+            <span>
+              ${item.weight} kg
+            </span>
+
+          </div>
+
+          <div class="shop-price">
+
+            <img
+              src="${goldIcon}"
+              alt="Gold"
+            />
+
+            <strong>
+              ${item.value}
+            </strong>
+
           </div>
 
           <button
-            class="item-button"
+            class="buy-button"
             data-item-id="${item.id}"
+            ${
+              hero.gold < item.value
+                ? "disabled"
+                : ""
+            }
           >
-            ${buttonText}
+            Buy
           </button>
+
         </div>
       `;
     })
     .join("");
 
-  const equipmentHtml = `
-    <div class="equipment-item">
-      <span>Weapon</span>
-      <strong>
-        ${hero.equipment.weapon?.name ?? "Empty"}
-      </strong>
-    </div>
+  /* =========================
+     ACTIVE PANEL
+  ========================= */
 
-    <div class="equipment-item">
-      <span>Armor</span>
-      <strong>
-        ${hero.equipment.armor?.name ?? "Empty"}
-      </strong>
-    </div>
+  let activePanelHtml = "";
 
-    <div class="equipment-item">
-      <span>Ring</span>
-      <strong>
-        ${hero.equipment.ring?.name ?? "Empty"}
-      </strong>
-    </div>
-  `;
+  switch (activePanel) {
+    case "inventory":
+      activePanelHtml = `
+        <section
+          class="
+            hero-panel
+            inventory-panel
+          "
+          style="
+            --panel-bg:
+            url('${inventoryBackground}')
+          "
+        >
 
-  const activePanelHtml =
-    activePanel === "inventory"
-      ? `
-        <section class="hero-panel">
-          <h2>Inventory</h2>
+          <div class="panel-content">
 
-          ${
-            inventoryHtml ||
-            "<p class='empty-message'>Inventory is empty.</p>"
-          }
-        </section>
-      `
-      : `
-        <section class="hero-panel">
-          <h2>Equipment</h2>
+            ${
+              inventoryHtml ||
+              `
+                <p class="empty-message">
+                  Inventory is empty.
+                </p>
+              `
+            }
 
-          ${equipmentHtml}
+          </div>
+
         </section>
       `;
 
-  document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
+      break;
+
+    case "equipment":
+      activePanelHtml = `
+        <section
+          class="
+            hero-panel
+            equipment-panel
+          "
+          style="
+            --panel-bg:
+            url('${equipmentBackground}')
+          "
+        >
+
+          <div class="panel-content equipment-content">
+
+            ${equipmentHtml}
+
+          </div>
+
+        </section>
+      `;
+
+      break;
+
+    case "shop":
+      activePanelHtml = `
+        <section
+          class="
+            hero-panel
+            shop-panel
+          "
+          style="
+            --panel-bg:
+            url('${shopBackground}')
+          "
+        >
+
+          <div class="shop-content">
+
+            ${
+              shopHtml ||
+              `
+                <p class="empty-message">
+                  Sold out!
+                </p>
+              `
+            }
+
+          </div>
+
+        </section>
+      `;
+
+      break;
+  }
+
+  /* =========================
+     MAIN HTML
+  ========================= */
+
+  document.querySelector<HTMLDivElement>(
+    "#app",
+  )!.innerHTML = `
+
     <main class="game">
 
       <h1 class="main-game-title">
@@ -173,112 +573,231 @@ function render(): void {
 
       <section class="battle-layout">
 
-        <!-- HERO -->
+        <!-- =====================
+             HERO
+        ====================== -->
 
         <section class="character-card">
 
           <h2 class="character-name">
             ${hero.name}
-            ${hero.isDead() ? "☠️" : ""}
+
+            ${
+              hero.isDead()
+                ? "☠️"
+                : ""
+            }
           </h2>
 
           <div class="sprite-container">
+
             <img
               id="hero-sprite"
               class="character-sprite"
-              src="src/assets/conan.png"
+              src="${conanSprite}"
               alt="Conan"
             />
+
+            <img
+              id="level-up"
+              class="level-up"
+              src="${levelUpIcon}"
+              alt="Level Up"
+            />
+
           </div>
 
           <div class="stats">
 
             <div class="stat-row">
+
               <span>Level</span>
-              <strong>${hero.level}</strong>
+
+              <strong>
+                ${hero.level}
+              </strong>
+
             </div>
 
             <div class="stat-label">
+
               <span>HP</span>
+
               <span>
-                ${hero.currentHealth} / ${hero.maxHealth}
+                ${hero.currentHealth}
+                /
+                ${hero.maxHealth}
               </span>
+
             </div>
 
             <div class="bar">
+
               <div
                 class="health-fill"
-                style="width: ${heroHealthPercentage}%"
+                style="
+                  width:
+                  ${heroHealthPercentage}%
+                "
               ></div>
+
             </div>
 
             <div class="stat-label">
+
               <span>Mana</span>
+
               <span>
-                ${hero.currentMana} / ${hero.maxMana}
+                ${hero.currentMana}
+                /
+                ${hero.maxMana}
               </span>
+
             </div>
 
             <div class="bar">
+
               <div
                 class="mana-fill"
-                style="width: ${heroManaPercentage}%"
+                style="
+                  width:
+                  ${heroManaPercentage}%
+                "
               ></div>
+
             </div>
 
             <div class="stat-label">
+
               <span>XP</span>
+
               <span>
                 ${hero.experience}
                 /
                 ${hero.experienceToNextLevel}
               </span>
+
             </div>
 
             <div class="bar">
+
               <div
                 class="xp-fill"
-                style="width: ${heroXpPercentage}%"
+                style="
+                  width:
+                  ${heroXpPercentage}%
+                "
               ></div>
+
             </div>
 
             <div class="stat-row">
-              <span>Gold</span>
-              <strong>${hero.gold}</strong>
+
+              <span class="stat-name">
+
+                <img
+                  class="stat-icon"
+                  src="${goldIcon}"
+                  alt=""
+                />
+
+                Gold
+
+              </span>
+
+              <strong>
+                ${hero.gold}
+              </strong>
+
             </div>
 
             <div class="stat-row">
-              <span>Attack</span>
-              <strong>${hero.getAttack()}</strong>
+
+              <span class="stat-name">
+
+                <img
+                  class="stat-icon"
+                  src="${basicAxeIcon}"
+                  alt=""
+                />
+
+                Attack
+
+              </span>
+
+              <strong>
+                ${hero.getAttack()}
+              </strong>
+
             </div>
 
             <div class="stat-row">
-              <span>Defense</span>
-              <strong>${hero.getDefense()}</strong>
+
+              <span class="stat-name">
+
+                <img
+                  class="stat-icon"
+                  src="${armorIcon}"
+                  alt=""
+                />
+
+                Defense
+
+              </span>
+
+              <strong>
+                ${hero.getDefense()}
+              </strong>
+
             </div>
 
             <div class="stat-row">
-              <span>Strength</span>
-              <strong>${hero.getStrength()}</strong>
+
+              <span class="stat-name">
+
+                <img
+                  class="stat-icon"
+                  src="${strengthIcon}"
+                  alt=""
+                />
+
+                Strength
+
+              </span>
+
+              <strong>
+                ${hero.getStrength()}
+              </strong>
+
             </div>
 
           </div>
 
         </section>
 
-        <!-- CENTER -->
+        <!-- =====================
+             CENTER
+        ====================== -->
 
         <section class="center-column">
 
           <section class="combat-log-card">
 
-            <h2>Combat Log</h2>
+            <h2>
+              Combat Log
+            </h2>
 
             <div class="combat-log">
+
               ${
                 combatLogHtml ||
-                "<p>No combat yet.</p>"
+                `
+                  <p>
+                    No combat yet.
+                  </p>
+                `
               }
+
             </div>
 
           </section>
@@ -287,7 +806,8 @@ function render(): void {
             id="attack-button"
             class="attack-button"
             ${
-              enemy.isDead() || hero.isDead()
+              enemy.isDead() ||
+              hero.isDead()
                 ? "disabled"
                 : ""
             }
@@ -297,60 +817,153 @@ function render(): void {
 
         </section>
 
-        <!-- ENEMY -->
+        <!-- =====================
+             ENEMY
+        ====================== -->
 
         <section class="enemy-card">
 
           <h2 class="character-name">
+
             ${enemy.name}
-            ${enemy.isDead() ? "☠️" : ""}
+
+            ${
+              enemy.isDead()
+                ? "☠️"
+                : ""
+            }
+
           </h2>
 
           <div class="sprite-container">
+
             <img
               id="enemy-sprite"
-              class="character-sprite"
-              src="src/assets/goblin.png"
+
+              class="
+                character-sprite
+                ${
+                  enemy.isDead()
+                    ? "dead-sprite"
+                    : ""
+                }
+              "
+
+              src="${
+                enemy.isDead()
+                  ? goblinDeadSprite
+                  : goblinSprite
+              }"
+
               alt="Goblin"
             />
+
           </div>
 
           <div class="stats">
 
             <div class="stat-label">
+
               <span>HP</span>
+
               <span>
                 ${enemy.currentHealth}
                 /
                 ${enemy.maxHealth}
               </span>
+
             </div>
 
             <div class="bar">
+
               <div
                 class="enemy-health-fill"
-                style="width: ${enemyHealthPercentage}%"
+                style="
+                  width:
+                  ${enemyHealthPercentage}%
+                "
               ></div>
+
             </div>
 
             <div class="stat-row">
-              <span>Attack</span>
-              <strong>${enemy.attackValue}</strong>
+
+              <span class="stat-name">
+
+                <img
+                  class="stat-icon"
+                  src="${basicAxeIcon}"
+                  alt=""
+                />
+
+                Attack
+
+              </span>
+
+              <strong>
+                ${enemy.attackValue}
+              </strong>
+
             </div>
 
             <div class="stat-row">
-              <span>Defense</span>
-              <strong>${enemy.defense}</strong>
+
+              <span class="stat-name">
+
+                <img
+                  class="stat-icon"
+                  src="${armorIcon}"
+                  alt=""
+                />
+
+                Defense
+
+              </span>
+
+              <strong>
+                ${enemy.defense}
+              </strong>
+
             </div>
 
             <div class="stat-row">
-              <span>XP Reward</span>
-              <strong>${enemy.experienceReward}</strong>
+
+              <span class="stat-name">
+
+                <img
+                  class="stat-icon"
+                  src="${xpIcon}"
+                  alt=""
+                />
+
+                XP Reward
+
+              </span>
+
+              <strong>
+                ${enemy.experienceReward}
+              </strong>
+
             </div>
 
             <div class="stat-row">
-              <span>Gold Reward</span>
-              <strong>${enemy.goldReward}</strong>
+
+              <span class="stat-name">
+
+                <img
+                  class="stat-icon"
+                  src="${goldIcon}"
+                  alt=""
+                />
+
+                Gold Reward
+
+              </span>
+
+              <strong>
+                ${enemy.goldReward}
+              </strong>
+
             </div>
 
           </div>
@@ -359,7 +972,9 @@ function render(): void {
 
       </section>
 
-      <!-- LOWER CONTROLS -->
+      <!-- =====================
+           LOWER MENU
+      ====================== -->
 
       <section class="lower-layout">
 
@@ -369,8 +984,10 @@ function render(): void {
 
             <button
               id="inventory-toggle"
+
               class="${
-                activePanel === "inventory"
+                activePanel ===
+                "inventory"
                   ? "active"
                   : ""
               }"
@@ -380,13 +997,28 @@ function render(): void {
 
             <button
               id="equipment-toggle"
+
               class="${
-                activePanel === "equipment"
+                activePanel ===
+                "equipment"
                   ? "active"
                   : ""
               }"
             >
               Equipment
+            </button>
+
+            <button
+              id="shop-toggle"
+
+              class="${
+                activePanel ===
+                "shop"
+                  ? "active"
+                  : ""
+              }"
+            >
+              Shop
             </button>
 
           </div>
@@ -403,7 +1035,12 @@ function render(): void {
   setupAttackButton();
   setupPanelButtons();
   setupItemButtons();
+  setupShopButtons();
 }
+
+/* =========================
+   ATTACK
+========================= */
 
 function setupAttackButton(): void {
   const attackButton =
@@ -414,8 +1051,14 @@ function setupAttackButton(): void {
   attackButton?.addEventListener(
     "click",
     async () => {
-      const enemyHpBefore = enemy.currentHealth;
-      const heroHpBefore = hero.currentHealth;
+      const enemyHpBefore =
+        enemy.currentHealth;
+
+      const heroHpBefore =
+        hero.currentHealth;
+
+      const levelBefore =
+        hero.level;
 
       const heroSprite =
         document.querySelector<HTMLImageElement>(
@@ -427,12 +1070,27 @@ function setupAttackButton(): void {
           "#enemy-sprite",
         );
 
-      heroSprite?.classList.add("hero-attacking");
+      /* =====================
+         HERO ATTACK
+      ====================== */
+
+      if (heroSprite) {
+        heroSprite.src =
+          conanAttackSprite;
+      }
+
+      heroSprite?.classList.add(
+        "hero-attacking",
+      );
 
       await wait(180);
 
       const heroAttacked =
         hero.attack(enemy);
+
+      const leveledUp =
+        hero.level >
+        levelBefore;
 
       if (heroAttacked) {
         const damageDealt =
@@ -454,9 +1112,18 @@ function setupAttackButton(): void {
         "hero-attacking",
       );
 
+      if (heroSprite) {
+        heroSprite.src =
+          conanSprite;
+      }
+
       enemySprite?.classList.remove(
         "taking-damage",
       );
+
+      /* =====================
+         ENEMY DEAD
+      ====================== */
 
       if (enemy.isDead()) {
         combatLog.unshift(
@@ -464,7 +1131,28 @@ function setupAttackButton(): void {
         );
 
         render();
+
+        if (leveledUp) {
+          const levelUpImage =
+            document.querySelector<HTMLImageElement>(
+              "#level-up",
+            );
+
+          levelUpImage?.classList.add(
+            "show",
+          );
+        }
+
         return;
+      }
+
+      /* =====================
+         ENEMY ATTACK
+      ====================== */
+
+      if (enemySprite) {
+        enemySprite.src =
+          goblinAttackSprite;
       }
 
       enemySprite?.classList.add(
@@ -496,6 +1184,11 @@ function setupAttackButton(): void {
         "enemy-attacking",
       );
 
+      if (enemySprite) {
+        enemySprite.src =
+          goblinSprite;
+      }
+
       heroSprite?.classList.remove(
         "taking-damage",
       );
@@ -516,6 +1209,10 @@ function setupAttackButton(): void {
   );
 }
 
+/* =========================
+   PANEL BUTTONS
+========================= */
+
 function setupPanelButtons(): void {
   const inventoryToggle =
     document.querySelector<HTMLButtonElement>(
@@ -527,10 +1224,17 @@ function setupPanelButtons(): void {
       "#equipment-toggle",
     );
 
+  const shopToggle =
+    document.querySelector<HTMLButtonElement>(
+      "#shop-toggle",
+    );
+
   inventoryToggle?.addEventListener(
     "click",
     () => {
-      activePanel = "inventory";
+      activePanel =
+        "inventory";
+
       render();
     },
   );
@@ -538,11 +1242,27 @@ function setupPanelButtons(): void {
   equipmentToggle?.addEventListener(
     "click",
     () => {
-      activePanel = "equipment";
+      activePanel =
+        "equipment";
+
+      render();
+    },
+  );
+
+  shopToggle?.addEventListener(
+    "click",
+    () => {
+      activePanel =
+        "shop";
+
       render();
     },
   );
 }
+
+/* =========================
+   INVENTORY BUTTONS
+========================= */
 
 function setupItemButtons(): void {
   const itemButtons =
@@ -550,41 +1270,142 @@ function setupItemButtons(): void {
       ".item-button",
     );
 
-  itemButtons.forEach((button) => {
-    button.addEventListener(
-      "click",
-      () => {
-        const itemId = Number(
-          button.dataset.itemId,
-        );
+  itemButtons.forEach(
+    (button) => {
+      button.addEventListener(
+        "click",
+        () => {
+          const itemId =
+            Number(
+              button.dataset.itemId,
+            );
 
-        const item =
-          hero.inventory.getItemById(
-            itemId,
-          );
+          const item =
+            hero.inventory.getItemById(
+              itemId,
+            );
 
-        if (!item) {
-          return;
-        }
+          if (!item) {
+            return;
+          }
 
-        if (
-          item.type === ItemType.Potion
-        ) {
-          hero.useItem(itemId);
-        } else {
-          hero.equipItem(itemId);
-        }
+          if (
+            item.type ===
+            ItemType.Potion
+          ) {
+            hero.useItem(itemId);
+          } else {
+            hero.equipItem(itemId);
+          }
 
-        render();
-      },
-    );
-  });
+          render();
+        },
+      );
+    },
+  );
 }
 
-function wait(milliseconds: number): Promise<void> {
-  return new Promise((resolve) => {
-    setTimeout(resolve, milliseconds);
-  });
+/* =========================
+   SHOP BUTTONS
+========================= */
+
+function setupShopButtons(): void {
+  const buyButtons =
+    document.querySelectorAll<HTMLButtonElement>(
+      ".buy-button",
+    );
+
+  buyButtons.forEach(
+    (button) => {
+      button.addEventListener(
+        "click",
+        () => {
+          const itemId =
+            Number(
+              button.dataset.itemId,
+            );
+
+          const item =
+            shop.getItemById(
+              itemId,
+            );
+
+          if (!item) {
+            return;
+          }
+
+          const bought =
+            shop.buyItem(
+              itemId,
+              hero,
+            );
+
+          if (bought) {
+            combatLog.unshift(
+              `${hero.name} bought ${item.name} for ${item.value} gold.`,
+            );
+          } else {
+            combatLog.unshift(
+              `Could not buy ${item.name}.`,
+            );
+          }
+
+          render();
+        },
+      );
+    },
+  );
+}
+
+/* =========================
+   ICON HELPER
+========================= */
+
+function getItemIcon(
+  item: Item,
+): string {
+  switch (item.name) {
+    case "Axe":
+      return basicAxeIcon;
+
+    case "Supreme Axe":
+      return battleAxeIcon;
+
+    case "Iron Armor":
+      return armorIcon;
+
+    case "Strength Ring":
+      return strengthIcon;
+
+    case "Health Potion":
+      return healthPotionIcon;
+
+    case "Mana Potion":
+      return manaPotionIcon;
+
+    case "Super Potion":
+      return superPotionIcon;
+
+    default:
+      return "";
+  }
+}
+
+/* =========================
+   WAIT HELPER
+========================= */
+
+function wait(
+  milliseconds: number,
+): Promise<void> {
+  return new Promise(
+    (resolve) => {
+      setTimeout(
+        resolve,
+        milliseconds,
+      );
+    },
+  );
 }
 
 render();
