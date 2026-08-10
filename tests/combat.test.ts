@@ -92,7 +92,7 @@ describe("Combat", () => {
         expect(result).toBe(true);
         expect(enemy.isDead()).toBe(true);
         
-        expect(hero.gold).toBe(1020);
+        expect(hero.gold).toBe(820);
         expect(hero.experience).toBe(15);
         expect(hero.level).toBe(2);
     });

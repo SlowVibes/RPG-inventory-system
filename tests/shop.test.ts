@@ -13,7 +13,7 @@ describe("Shop", () => {
         const result = shop.buyItem(sword.id, hero);
 
         expect(result).toBe(true);
-        expect(hero.gold).toBe(900);
+        expect(hero.gold).toBe(700);
         expect(hero.inventory.getItemById(sword.id)).toBe(sword);
         expect(shop.getItemById(sword.id)).toBeUndefined();
     });
@@ -27,7 +27,7 @@ describe("Shop", () => {
         expect(hero.inventory.canAddItem(sword)).toBe(true);
 
         expect(result).toBe(false);
-        expect(hero.gold).toBe(1000);
+        expect(hero.gold).toBe(800);
         expect(hero.inventory.getItemById(sword.id)).toBeUndefined();
         expect(shop.getItemById(sword.id)).toBe(sword);
     });
@@ -41,7 +41,7 @@ describe("Shop", () => {
 
         expect(hero.inventory.canAddItem(sword)).toBe(false);
         expect(result).toBe(false);
-        expect(hero.gold).toBe(1000);
+        expect(hero.gold).toBe(800);
         expect(hero.inventory.getItemById(sword.id)).toBeUndefined();
         expect(shop.getItemById(sword.id)).toBe(sword);
     });
@@ -57,7 +57,7 @@ describe("Shop", () => {
 
         expect(result).toBe(true);
         expect(hero.inventory.getItemById(sword.id)).toBeUndefined();
-        expect(hero.gold).toBe(1100);
+        expect(hero.gold).toBe(900);
         expect(shop.getItemById(sword.id)).toBe(sword);
     });
 
@@ -69,7 +69,7 @@ describe("Shop", () => {
 
         expect(result).toBe(false);
         expect(hero.inventory.getItemById(1)).toBeUndefined();
-        expect(hero.gold).toBe(1000);
+        expect(hero.gold).toBe(800);
         expect(shop.getItemById(1)).toBeUndefined();
     });
 });
