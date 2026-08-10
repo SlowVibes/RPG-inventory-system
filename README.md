@@ -1,4 +1,4 @@
-# ⚔️ Conan's Codeventures
+# ⚔️ Conan's Codeventures v.1.0.
 
 A small browser-based fantasy RPG built with **TypeScript**.
 
@@ -7,9 +7,8 @@ The project originally started as an object-oriented programming exercise focuse
 ## 🎮 Play Online
 <a href="https://ibb.co/zHnJmqmR"><img src="https://i.ibb.co/JFBQcDc7/f0b083ec-a7ba-435d-9fa6-8fd1796ef555.png" alt="f0b083ec-a7ba-435d-9fa6-8fd1796ef555" border="0"></a>
 
-<a href="https://ibb.co/cSm5B8s4"><img src="https://i.ibb.co/1tSVgX4F/K-perny-k-p-2026-08-09-155629.png" alt="K-perny-k-p-2026-08-09-155629" border="0"></a>
-<a href="https://ibb.co/GvGBTkNr"><img src="https://i.ibb.co/XZ6N8pMG/K-perny-k-p-2026-08-09-160239.png" alt="K-perny-k-p-2026-08-09-160239" border="0"></a>
-<a href="https://ibb.co/XrvzGM4Q"><img src="https://i.ibb.co/67f4qLZM/K-perny-k-p-2026-08-09-160308.png" alt="K-perny-k-p-2026-08-09-160308" border="0"></a>
+<a href="https://ibb.co/sd7xjscX"><img src="https://i.ibb.co/pBqV24Nk/conanscreenshot1.png" alt="conanscreenshot1" border="0"></a>
+<a href="https://ibb.co/8gQwcGJg"><img src="https://i.ibb.co/qY285hzY/conanscreenshot2.png" alt="conanscreenshot2" border="0"></a>
 
 ### 👉 [PLAY CONAN'S CODEVENTURES](https://slowvibes.github.io/RPG-inventory-system/)
 
@@ -374,12 +373,11 @@ The game is automatically built and deployed using **GitHub Actions** and hosted
 
 ## 📌 Project Status
 
-**Playable version complete.**
+**Finished**
 
 The main gameplay loop, character progression, enemy progression, inventory, equipment, shop, animations and final boss encounter are implemented.
 
-A final code refactoring and testing pass may still be performed.
-
+A final code refactoring and testing has been finished.
 ---
 
 ## 👨‍💻 Author
@@ -387,9 +385,3 @@ A final code refactoring and testing pass may still be performed.
 **Gergo Stroban**
 
 Built as a TypeScript learning and portfolio project.
-
----
-
-### ⚔️ Ready to fight?
-
-## 👉 [PLAY CONAN'S CODEVENTURES](https://slowvibes.github.io/RPG-inventory-system/)
